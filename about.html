@@ -10,11 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-
     <style>
         * {
             margin: 0;
@@ -36,6 +31,9 @@
             --text-dark: var(--navy);
             --text-light: var(--cream);
             --background: var(--cream);
+            --gray-100: #ecf0f1;
+            --gray-700: #1a252f;
+            --gray-800: #f8f9fa;
         }
 
         html {
@@ -53,19 +51,31 @@
         /* Header */
         .header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(245, 245, 220, 0.95);
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            background: rgba(245, 245, 220, 0.15);
             backdrop-filter: blur(20px);
-            padding: 20px 0;
-            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 56px;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px rgba(27, 41, 81, 0.1), 0 4px 16px rgba(255, 140, 66, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: fit-content;
+            min-width: auto;
+            max-width: none;
+            padding: 0;
         }
 
         .header.scrolled {
-            padding: 12px 0;
-            box-shadow: 0 2px 20px rgba(27, 41, 81, 0.1);
+            background: rgba(10, 10, 10, 0.98);
+            border-color: var(--gray-700);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4), 0 3px 12px rgba(0, 0, 0, 0.3);
+            height: 48px;
+            top: 64px;
+            border-radius: 24px;
         }
 
         .container {
@@ -88,17 +98,6 @@
             min-height: 48px;
         }
 
-        .logo {
-            background: linear-gradient(135deg, var(--white) 0%, var(--light-cream) 100%);
-            border-radius: 20px;
-            padding: 8px 16px;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 2px 8px rgba(27, 41, 81, 0.1);
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
         .nav {
             display: none;
         }
@@ -112,29 +111,117 @@
             font-size: 24px;
             cursor: pointer;
             padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+            .mobile-nav-bar,
+            .mobile-page-cards {
+                display: none !important;
+            }
+            .nav {
+                display: flex;
+                gap: 2px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                padding: 4px;
+                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                height: 40px;
+                align-items: center;
+            }
+
+            .header.scrolled .nav {
+                padding: 4px;
+                border-radius: 16px;
+                height: 32px;
+            }
+        }
+
+        .nav a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 32px;
+            box-sizing: border-box;
+        }
+
+        .nav a:hover {
+            color: var(--orange);
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 140, 66, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .nav a.active {
+            background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 100%);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(255, 140, 66, 0.3);
         }
 
         /* Hero Section */
         .hero {
-            padding: 140px 0 80px;
+            padding: 160px 0 100px;
             text-align: center;
-            background: linear-gradient(135deg, var(--light-cream) 0%, var(--cream) 100%);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 140, 66, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
         }
 
         .hero-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 20px;
+            color: var(--white);
+            margin-bottom: 24px;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--navy);
-            opacity: 0.8;
-            max-width: 600px;
+            font-size: 22px;
+            color: var(--cream);
+            opacity: 0.95;
+            max-width: 800px;
             margin: 0 auto 40px;
+            line-height: 1.7;
+            font-weight: 400;
         }
 
         .breadcrumb {
@@ -158,28 +245,43 @@
 
         /* About Section */
         .about-section {
-            padding: 80px 0;
+            padding: 140px 0 120px;
+            background: var(--gray-100);
+            position: relative;
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 140, 66, 0.3) 50%, transparent 100%);
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 90px;
         }
 
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
             color: var(--navy);
             margin-bottom: 20px;
         }
 
         .section-subtitle {
-            font-size: 1.1rem;
+            font-size: 18px;
             color: var(--navy);
             opacity: 0.8;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
         .about-content {
@@ -192,8 +294,14 @@
         .about-text {
             background: var(--white);
             padding: 60px 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(27, 41, 81, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(27, 41, 81, 0.12), 0 8px 32px rgba(255, 140, 66, 0.06);
+            transition: all 0.4s ease;
+        }
+
+        .about-text:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 32px 80px rgba(27, 41, 81, 0.15), 0 16px 40px rgba(255, 140, 66, 0.08);
         }
 
         .about-text h3 {
@@ -212,11 +320,30 @@
         }
 
         .about-stats {
-            background: var(--navy);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
             color: var(--cream);
             padding: 60px 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(27, 41, 81, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(27, 41, 81, 0.12), 0 8px 32px rgba(255, 140, 66, 0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 140, 66, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .about-stats:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 32px 80px rgba(27, 41, 81, 0.15), 0 16px 40px rgba(255, 140, 66, 0.08);
         }
 
         .stats-grid {
@@ -243,48 +370,37 @@
             opacity: 0.8;
         }
 
-        /* Mission Section */
-        .mission-section {
-            padding: 100px 0;
-            background: var(--light-cream);
-        }
-
-        .mission-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .mission-content h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--navy);
-            margin-bottom: 30px;
-        }
-
-        .mission-content p {
-            font-size: 1.2rem;
-            line-height: 1.7;
-            color: var(--navy);
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-
         /* Staff Section */
         .staff-section {
-            padding: 100px 0;
-            background: var(--white);
+            padding: 140px 0 120px;
+            background: var(--light-cream);
+            position: relative;
+        }
+
+        .staff-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 140, 66, 0.3) 50%, transparent 100%);
         }
 
         .staff-member {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
-            background: var(--light-cream);
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(27, 41, 81, 0.1);
+            background: var(--white);
+            padding: 80px 60px;
+            border-radius: 32px;
+            box-shadow: 0 32px 80px rgba(27, 41, 81, 0.12), 0 16px 40px rgba(255, 140, 66, 0.06);
+            transition: all 0.4s ease;
+        }
+
+        .staff-member:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 48px 120px rgba(27, 41, 81, 0.15), 0 24px 60px rgba(255, 140, 66, 0.08);
         }
 
         .member-photo {
@@ -345,32 +461,101 @@
             color: var(--navy);
         }
 
+        /* Mission Section */
+        .mission-section {
+            padding: 120px 0;
+            background: var(--light-cream);
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mission-text h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--orange);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .mission-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            text-align: left;
+        }
+
         /* Values Section */
         .values-section {
-            padding: 100px 0;
-            background: var(--navy);
+            padding: 140px 0 120px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-navy) 100%);
             color: var(--cream);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 140, 66, 0.4) 50%, transparent 100%);
+        }
+
+        .values-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 140, 66, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .values-section .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .values-section .section-title {
+            color: var(--white);
+        }
+
+        .values-section p {
+            color: var(--white);
+            opacity: 0.9;
         }
 
         .values-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 80px;
         }
 
         .value-card {
-            background: rgba(245, 245, 220, 0.1);
-            padding: 40px 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 140, 66, 0.2);
-            transition: all 0.3s ease;
+            background: rgba(245, 245, 220, 0.05);
+            padding: 40px 32px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 140, 66, 0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .value-card:hover {
-            background: rgba(245, 245, 220, 0.15);
-            transform: translateY(-5px);
+            background: rgba(245, 245, 220, 0.12);
+            border-color: rgba(255, 140, 66, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(27, 41, 81, 0.15), 0 8px 32px rgba(255, 140, 66, 0.1);
         }
 
         .value-icon {
@@ -402,6 +587,7 @@
             background: var(--dark-navy);
             color: var(--cream);
             padding: 60px 0 30px;
+            text-align: center;
         }
 
         .footer-content {
@@ -476,46 +662,45 @@
             }
 
             .page-card {
-                background: rgba(255, 255, 255, 0.9);
-                color: #333;
-                border: none;
+                background: rgba(255, 255, 255, 0.15);
+                color: var(--white);
+                border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 16px;
-                padding: 6px 12px;
+                padding: 8px 12px;
                 text-decoration: none;
                 transition: all 0.3s ease;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 11px;
-                font-weight: 700;
+                font-size: 12px;
+                font-weight: 600;
                 white-space: nowrap;
-                min-width: 50px;
-                height: 28px;
+                min-width: 60px;
+                height: 32px;
                 flex: 1;
             }
 
             .page-card:hover {
-                background: rgba(255, 255, 255, 1);
+                background: rgba(255, 255, 255, 0.25);
+                border-color: rgba(255, 140, 66, 0.4);
                 transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 4px 16px rgba(255, 140, 66, 0.1);
             }
 
             .page-card.active {
                 background: var(--orange);
-                color: var(--navy);
+                color: var(--white);
+                border-color: var(--orange);
+                box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
             }
 
-            /* Mobile Nav Logo */
-            .mobile-nav-logo {
+            /* Mobile navigation without logo - center the cards */
+            .mobile-nav-bar {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
-
-            .mobile-nav-logo img {
-                height: 40px;
-                width: auto;
             }
         }
 
@@ -534,7 +719,52 @@
             }
 
             .hero {
-                padding: 120px 0 60px;
+                padding: 140px 0 80px;
+            }
+
+            .hero-title {
+                font-size: clamp(2.5rem, 10vw, 3.5rem);
+                margin-bottom: 20px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+                padding: 0 15px;
+            }
+
+            .section-title {
+                font-size: clamp(2.5rem, 8vw, 3.5rem);
+                margin-bottom: 16px;
+            }
+
+            .section-subtitle {
+                font-size: 16px;
+                padding: 0 10px;
+            }
+
+            .about-section {
+                padding: 80px 0;
+            }
+
+            .section-header {
+                margin-bottom: 60px;
+            }
+
+            .staff-section {
+                padding: 80px 0;
+            }
+
+            .staff-member {
+                padding: 60px 40px;
+                border-radius: 24px;
+            }
+
+            .mission-section {
+                padding: 80px 0;
+            }
+
+            .values-section {
+                padding: 80px 0;
             }
 
             .about-content {
@@ -563,9 +793,6 @@
     <header class="header">
         <div class="container">
             <div class="header-inner">
-                <a href="index.html" class="logo">
-                    <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 40px; width: auto;">
-                </a>
                 <nav class="nav">
                     <a href="index.html">Home</a>
                     <a href="gallery.html">Maple House</a>
@@ -579,9 +806,6 @@
 
     <!-- Clean Mobile Navigation -->
     <div class="mobile-nav-bar">
-        <div class="mobile-nav-logo">
-            <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 60px; width: auto;">
-        </div>
         <div class="mobile-page-cards">
             <a href="index.html" class="page-card">Home</a>
             <a href="gallery.html" class="page-card">Maple House</a>
@@ -593,13 +817,8 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span>About</span>
-            </div>
             <h1 class="hero-title">About NewBridge Living</h1>
-            <p class="hero-subtitle">Providing dignity, stability, and growth as a bridge to independence in Tallahassee, Florida.</p>
+            <p class="hero-subtitle">Creating supportive recovery housing where individuals rebuild their lives with dignity and develop the foundation for lasting independence.</p>
         </div>
     </section>
 
@@ -616,7 +835,7 @@
                     <h3>Our Commitment</h3>
                     <p>At NewBridge Living, we provide more than just housing – we offer a comprehensive support system designed to help individuals transition from treatment to independent living. Our approach focuses on building life skills, fostering community connections, and creating a foundation for long-term success.</p>
 
-                    <p>Located in Tallahassee, Florida, our recovery housing serves as a crucial step in the recovery journey. We understand that the transition from structured treatment to independent living can be challenging, which is why we provide 24/7 house management, peer support, and connections to local resources.</p>
+                    <p>Our recovery housing serves as a crucial step in the recovery journey. We understand that the transition from structured treatment to independent living can be challenging, which is why we provide comprehensive support, peer connections, and access to local resources.</p>
 
                     <p>Our mission extends beyond providing shelter – we're committed to helping each resident develop the tools, confidence, and support network necessary for sustained recovery and personal growth.</p>
                 </div>
@@ -648,17 +867,6 @@
         </div>
     </section>
 
-    <!-- Mission -->
-    <section class="mission-section">
-        <div class="container">
-            <div class="mission-content">
-                <h3>Our Mission</h3>
-                <p>To provide a safe, supportive, and structured living environment that empowers individuals in recovery to build the skills, relationships, and confidence needed for lasting independence and personal growth.</p>
-                <p>We believe that recovery is not just about overcoming addiction – it's about rediscovering purpose, rebuilding relationships, and creating a meaningful life in the community.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Staff -->
     <section class="staff-section">
         <div class="container">
@@ -686,6 +894,27 @@
         </div>
     </section>
 
+    <!-- Mission -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Mission</h2>
+                <p class="section-subtitle">To provide a safe, supportive, and structured environment that empowers individuals in recovery to rebuild their lives with dignity, develop essential life skills, and successfully transition to independent living.</p>
+            </div>
+
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h3>What We Believe</h3>
+                    <p>Recovery is a journey that requires more than just abstaining from substances. It requires rebuilding one's life from the ground up, developing healthy relationships, learning essential life skills, and creating a foundation for long-term success.</p>
+
+                    <p>At NewBridge Living, we provide the bridge between structured treatment and independent living. Our residents benefit from comprehensive support, peer connections, life skills development, and access to community resources that support their recovery journey.</p>
+
+                    <p>We are committed to treating every individual with dignity and respect, recognizing that each person's path to recovery is unique and deserves compassionate support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Values -->
     <section class="values-section">
         <div class="container">
@@ -694,25 +923,21 @@
 
             <div class="values-grid">
                 <div class="value-card">
-                    <div class="value-icon">🤝</div>
                     <h3 class="value-title">Dignity</h3>
                     <p class="value-description">Every individual deserves to be treated with respect, understanding, and compassion regardless of their past.</p>
                 </div>
 
                 <div class="value-card">
-                    <div class="value-icon">🏠</div>
                     <h3 class="value-title">Stability</h3>
                     <p class="value-description">Providing a secure, consistent environment where residents can focus on their recovery and personal growth.</p>
                 </div>
 
                 <div class="value-card">
-                    <div class="value-icon">🌱</div>
                     <h3 class="value-title">Growth</h3>
                     <p class="value-description">Supporting each resident's journey toward independence through skill building and personal development.</p>
                 </div>
 
                 <div class="value-card">
-                    <div class="value-icon">👥</div>
                     <h3 class="value-title">Community</h3>
                     <p class="value-description">Fostering connections and peer support that extend beyond residence to create lasting recovery networks.</p>
                 </div>
@@ -727,35 +952,21 @@
                 <div class="footer-section">
                     <h3>NewBridge Living</h3>
                     <p>Providing dignity, stability, and growth as a bridge to independence in Tallahassee, Florida.</p>
-                    <br>
-                    <p>Maple House - Quality recovery housing</p>
-                    <p>Oak House - Coming Soon</p>
                 </div>
-
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p>Phone: <a href="tel:(850) 555-0123">(850) 555-0123</a></p>
-                    <p>Email: <a href="mailto:contact@newbridgeliving.com">contact@newbridgeliving.com</a></p>
-                    <p>Location: Tallahassee, FL</p>
+                    <p>Phone: (850) 555-0123</p>
+                    <p>Email: contact@newbridgeliving.com</p>
+                    <p>Tallahassee, FL</p>
                 </div>
-
-                <div class="footer-section">
-                    <h3>Recovery Housing</h3>
-                    <p>Maple House</p>
-                    <p>Oak House (Coming Soon)</p>
-                    <p>Supportive Community</p>
-                    <p>24/7 House Management</p>
-                </div>
-
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <a href="index.html">Home</a>
-                    <a href="gallery.html">Maple House</a>
-                    <a href="about.html">About</a>
-                    <a href="contact.html">Apply</a>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="gallery.html">Maple House</a></p>
+                    <p><a href="about.html">About</a></p>
+                    <p><a href="contact.html">Apply</a></p>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <p>&copy; 2024 NewBridge Living. All rights reserved.</p>
             </div>
@@ -766,86 +977,13 @@
     <script>
         // Header scroll effect
         window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero animations
-        gsap.timeline()
-            .from('.hero-title', {
-                duration: 1,
-                y: 50,
-                opacity: 0,
-                ease: 'power3.out'
-            })
-            .from('.hero-subtitle', {
-                duration: 0.8,
-                y: 30,
-                opacity: 0,
-                ease: 'power3.out'
-            }, '-=0.5')
-            .from('.breadcrumb', {
-                duration: 0.6,
-                y: 20,
-                opacity: 0,
-                ease: 'power3.out'
-            }, '-=0.3');
-
-        // About content animation
-        gsap.from('.about-text, .about-stats', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            stagger: 0.3,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.about-content',
-                start: 'top 80%'
-            }
-        });
-
-        // Staff section animation
-        gsap.from('.staff-member', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.staff-member',
-                start: 'top 80%'
-            }
-        });
-
-        // Values cards animation
-        gsap.from('.value-card', {
-            duration: 0.8,
-            y: 40,
-            opacity: 0,
-            stagger: 0.15,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.values-grid',
-                start: 'top 80%'
-            }
-        });
-
-        // Mission content animation
-        gsap.from('.mission-content h3, .mission-content p', {
-            duration: 1,
-            y: 30,
-            opacity: 0,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-                trigger: '.mission-content',
-                start: 'top 80%'
+            const header = document.querySelector('.header');
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
             }
         });
     </script>
