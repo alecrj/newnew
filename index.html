@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoofStar</title>
+    <title>NewBridge Living - Recovery Housing in Tallahassee, Florida</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,20 +23,29 @@
         }
 
         :root {
+            --cream: #F5F5DC;
+            --navy: #1B2951;
+            --orange: #FF8C42;
+            --yellow: #FFD60A;
+            --white: #FFFFFF;
+            --light-cream: #FAFAF7;
+            --dark-navy: #0F1B35;
+            --soft-orange: #FFB07A;
+            --accent: var(--orange);
+            --accent-light: var(--soft-orange);
+            --text-dark: var(--navy);
+            --text-light: var(--cream);
+            --background: var(--cream);
             --black: #0a0a0a;
-            --white: #ffffff;
+            --gray-900: #111;
+            --gray-800: #1f1f1f;
+            --gray-700: #333;
+            --gray-600: #666;
+            --gray-500: #888;
+            --gray-400: #aaa;
+            --gray-300: #ccc;
+            --gray-200: #ddd;
             --gray-100: #f5f5f5;
-            --gray-200: #e8e8e8;
-            --gray-300: #d1d1d1;
-            --gray-400: #a8a8a8;
-            --gray-500: #8a8a8a;
-            --gray-600: #6a6a6a;
-            --gray-700: #4a4a4a;
-            --gray-800: #2a2a2a;
-            --gray-900: #1a1a1a;
-            --red: #ff0000;
-            --accent: #3b82f6;
-            --accent-light: #60a5fa;
         }
 
         html {
@@ -46,8 +55,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: var(--background);
+            color: var(--text-dark);
             line-height: 1.4;
             overflow-x: hidden;
             font-weight: 400;
@@ -70,13 +79,13 @@
             }
 
             .cursor::before {
-                content: '★';
+                content: '';
                 position: absolute;
                 top: 0;
                 left: 0;
                 font-size: 20px;
                 color: var(--red);
-                text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+                text-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
                 transition: all 0.15s ease;
                 line-height: 1;
             }
@@ -86,7 +95,7 @@
             }
 
             .cursor.clicking::before {
-                color: var(--white);
+                color: var(--navy);
                 text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
                 transform: scale(0.8);
             }
@@ -125,12 +134,13 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 3000;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(245, 245, 220, 0.15);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--gray-800);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             height: 56px;
             border-radius: 28px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(27, 41, 81, 0.1), 0 4px 16px rgba(255, 140, 66, 0.05);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             width: fit-content;
             min-width: auto;
@@ -217,7 +227,7 @@
             display: block;
             background: none;
             border: none;
-            color: var(--white);
+            color: var(--navy);
             font-size: 24px;
             cursor: pointer;
             padding: 8px;
@@ -255,7 +265,7 @@
 
             .mobile-hamburger {
                 background: var(--red);
-                color: var(--white);
+                color: var(--navy);
                 border: none;
                 border-radius: 8px;
                 padding: 6px 12px;
@@ -313,7 +323,7 @@
 
             .page-card.active {
                 background: var(--red);
-                color: white;
+                color: var(--navy);
             }
 
 
@@ -378,7 +388,7 @@
             right: 30px;
             background: none;
             border: none;
-            color: var(--white);
+            color: var(--navy);
             font-size: 30px;
             cursor: pointer;
             padding: 10px;
@@ -411,7 +421,7 @@
         }
 
         .mobile-nav a {
-            color: var(--white);
+            color: var(--navy);
             text-decoration: none;
             font-size: 28px;
             font-weight: 600;
@@ -460,14 +470,17 @@
         }
 
         .nav a {
-            color: var(--gray-400);
+            color: var(--navy);
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
             padding: 8px 16px;
             border-radius: 16px;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            background: transparent;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -497,7 +510,10 @@
         }
 
         .nav a:hover {
-            color: var(--white);
+            color: var(--orange);
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 140, 66, 0.3);
+            transform: translateY(-1px);
         }
 
         .nav a:hover::before {
@@ -505,9 +521,9 @@
         }
 
         .nav a.active {
-            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
-            color: var(--black);
-            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 100%);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(255, 140, 66, 0.3);
         }
 
         .nav a.active::before {
@@ -517,13 +533,14 @@
 
 
         /* HERO SECTION */
+        /* HERO SECTION */
         .hero {
-            padding: 160px 0 120px;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            min-height: 100vh;
             position: relative;
-            background: var(--black);
+            background: var(--navy);
+            overflow: hidden;
         }
 
         .hero::before {
@@ -533,30 +550,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(10, 10, 10, 0.85);
+            background: url('./assets/front-of-house.jpg') center/cover no-repeat;
+            opacity: 0.3;
             z-index: 1;
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('./assets/roofimage.jpg') center/cover no-repeat;
-            filter: grayscale(100%) contrast(0.8) brightness(0.6);
-            z-index: 0;
-        }
-
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 80px;
-            align-items: start;
-            width: 100%;
             position: relative;
             z-index: 2;
+            width: 100%;
         }
 
         .hero-text {
@@ -566,34 +568,34 @@
 
         .hero-left {
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .hero-intro {
             font-size: 14px;
-            color: var(--gray-400);
-            margin-bottom: 40px;
-            font-weight: 400;
-            letter-spacing: 0.1em;
+            color: var(--light-cream);
+            margin-bottom: 30px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
+            opacity: 0.9;
         }
 
         .hero-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 7vw, 5.5rem);
-            font-weight: 300;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 700;
             line-height: 0.9;
-            letter-spacing: -0.04em;
-            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
             color: var(--white);
             text-align: center;
         }
 
-        .hero-title .red {
-            color: var(--red);
+        .hero-title .highlight {
+            color: var(--orange);
+            position: relative;
         }
 
         /* CHARACTER ANIMATION STYLES */
@@ -601,7 +603,6 @@
             display: block;
             overflow: visible;
             line-height: 1.1;
-            padding-bottom: 8px;
         }
 
         .hero-title .char {
@@ -610,34 +611,161 @@
             line-height: 1.1;
         }
 
-        .hero-title .char.red {
-            color: var(--red);
+        .hero-title .char.highlight {
+            color: var(--orange);
         }
 
         .hero-subtitle {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 480px;
-            color: var(--gray-400);
-            margin-bottom: 40px;
+            color: var(--light-cream);
+            margin-bottom: 50px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            opacity: 0.9;
         }
 
         .hero-cta-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
-            flex-wrap: nowrap;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .hero-cta-buttons .btn-primary,
-        .hero-cta-buttons .btn-secondary {
-            padding: 12px 24px;
-            font-size: 14px;
-            white-space: nowrap;
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 140, 66, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--soft-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 140, 66, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--orange);
+            color: var(--white) !important;
+            padding: 16px 32px;
+            border: 2px solid var(--orange);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--orange);
+            border-color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.4);
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            padding: 120px 0;
+            background: var(--gray-100);
+        }
+
+        .why-choose-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .why-choose-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--black);
+        }
+
+        .why-choose-subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            position: relative;
+            align-items: flex-start;
+        }
+
+        .why-choose-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, var(--orange) 0%, var(--orange) 100%);
+            z-index: 1;
+        }
+
+        .why-choose-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .step-icon {
+            display: inline-block;
+            background: var(--white);
+            color: var(--orange);
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 4px 20px rgba(255, 140, 66, 0.2);
+            position: relative;
+            z-index: 3;
+        }
+
+        .step-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--orange);
+        }
+
+        .step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .step-description {
+            font-size: 15px;
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin: 0;
         }
 
         .hero-stats {
@@ -667,7 +795,7 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 600;
-            color: var(--white);
+            color: var(--navy);
             line-height: 1;
             margin-bottom: 8px;
         }
@@ -691,7 +819,7 @@
         .hero-image {
             position: relative;
             height: 300px;
-            background: var(--gray-900);
+            background: var(--navy);
             border-radius: 0;
             overflow: hidden;
         }
@@ -703,7 +831,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, var(--black) 50%, var(--accent) 50%);
+            background: linear-gradient(45deg, var(--navy) 50%, var(--accent) 50%);
             opacity: 0.1;
             z-index: 2;
         }
@@ -768,7 +896,7 @@
         /* STATS - DECONSTRUCTED */
         .stats {
             padding: 200px 0;
-            background: var(--black);
+            background: var(--navy);
         }
 
         .stats-grid {
@@ -789,7 +917,7 @@
             font-weight: 300;
             line-height: 1;
             margin-bottom: 10px;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .stat-label {
@@ -801,33 +929,33 @@
         }
 
         /* PROCESS SECTION */
+        /* PROCESS SECTION */
         .process {
-            padding: 200px 0;
-            background: var(--gray-900);
-            border-top: 1px solid var(--gray-800);
-            border-bottom: 1px solid var(--gray-800);
+            padding: 120px 0;
+            background: var(--gray-100);
         }
 
         .process-header {
             text-align: center;
-            margin-bottom: 120px;
+            margin-bottom: 80px;
         }
 
         .process-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(60px, 10vw, 140px);
+            font-size: clamp(3rem, 6vw, 5rem);
             font-weight: 700;
             line-height: 0.9;
-            letter-spacing: -0.03em;
-            margin-bottom: 30px;
-            color: var(--white);
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--black);
         }
 
         .process-subtitle {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--gray-600);
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
         .process-grid {
@@ -861,7 +989,7 @@
 
         .step-number {
             background: var(--red);
-            color: var(--white);
+            color: var(--navy);
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -887,7 +1015,7 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
-            color: var(--white);
+            color: var(--navy);
             line-height: 1.2;
         }
 
@@ -898,124 +1026,92 @@
         }
 
         /* WHY WORK WITH US */
+        /* SERVICES SECTION */
         .why-work-with-us {
-            padding: 200px 0;
-            background: var(--black);
-            color: var(--white);
+            padding: 120px 0;
+            background: var(--white);
         }
 
         .why-work-header {
             text-align: center;
-            margin-bottom: 120px;
+            margin-bottom: 80px;
         }
 
         .why-work-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(60px, 10vw, 140px);
+            font-size: clamp(3rem, 6vw, 5rem);
             font-weight: 700;
             line-height: 0.9;
-            letter-spacing: -0.03em;
-            margin-bottom: 30px;
-            color: var(--white);
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--black);
         }
 
         .why-work-title .red {
-            color: var(--red);
+            color: var(--orange);
         }
 
         .why-work-subtitle {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--gray-600);
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.4;
+            line-height: 1.6;
         }
 
-        .why-work-grid {
+        .offerings-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            gap: 24px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .why-work-card {
-            background: var(--gray-800);
-            border: 1px solid var(--gray-700);
-            border-radius: 16px;
-            padding: 40px 30px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+        .offering-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px;
+            background: var(--cream);
+            border: 2px solid var(--orange);
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
-        .why-work-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .offering-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 32px rgba(255, 140, 66, 0.15);
         }
 
-        .why-work-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .why-work-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-number {
-            background: var(--red);
-            color: var(--white);
-            width: 40px;
-            height: 40px;
+        .offering-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background: var(--orange);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 2;
+            color: white;
         }
 
-        .card-title {
+        .offering-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+        }
+
+        .offering-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--white);
-            position: relative;
-            z-index: 2;
-        }
-
-        .card-description {
-            font-size: 15px;
-            line-height: 1.5;
-            color: var(--gray-400);
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .card-stat {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--red);
-            position: relative;
-            z-index: 2;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--navy);
+            margin: 0;
         }
 
         /* PORTFOLIO - ASYMMETRICAL */
         .portfolio {
             padding: 200px 0;
-            background: var(--black);
+            background: var(--navy);
         }
 
         .portfolio-header {
@@ -1037,7 +1133,8 @@
             font-weight: 400;
             line-height: 1.5;
             max-width: 520px;
-            color: var(--gray-400);
+            color: var(--light-cream);
+            opacity: 0.9;
         }
 
         .project-grid {
@@ -1062,7 +1159,7 @@
 
         .project-image {
             height: 400px;
-            background: var(--gray-900);
+            background: var(--navy);
             position: relative;
             overflow: hidden;
             border-radius: 12px;
@@ -1095,7 +1192,7 @@
             line-height: 1.1;
             margin-bottom: 20px;
             letter-spacing: -0.02em;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .project-description {
@@ -1117,7 +1214,7 @@
         .services {
             padding: 200px 0;
             border-top: 1px solid var(--gray-800);
-            background: var(--gray-900);
+            background: var(--navy);
         }
 
         .services-header {
@@ -1132,7 +1229,7 @@
             line-height: 0.9;
             letter-spacing: -0.03em;
             margin-bottom: 30px;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .services-subtitle {
@@ -1173,7 +1270,7 @@
 
         .services-number {
             background: var(--red);
-            color: var(--white);
+            color: var(--navy);
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -1199,7 +1296,7 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
-            color: var(--white);
+            color: var(--navy);
             line-height: 1.2;
         }
 
@@ -1212,7 +1309,7 @@
         /* MATERIALS SHOWCASE */
         .materials {
             padding: 200px 0;
-            background: var(--black);
+            background: var(--navy);
             border-top: 1px solid var(--gray-800);
             border-bottom: 1px solid var(--gray-800);
         }
@@ -1234,10 +1331,11 @@
 
         .materials-subtitle {
             font-size: 20px;
-            color: var(--gray-600);
+            color: var(--light-cream);
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.4;
+            opacity: 0.9;
         }
 
         .materials-grid {
@@ -1247,7 +1345,7 @@
         }
 
         .material-card {
-            background: var(--gray-800);
+            background: var(--navy);
             padding: 50px 40px;
             border-radius: 12px;
             border: 1px solid var(--gray-700);
@@ -1271,7 +1369,7 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 20px;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .material-description {
@@ -1292,7 +1390,7 @@
         /* WHY CHOOSE US */
         .why-choose {
             padding: 200px 0;
-            background: var(--gray-900);
+            background: var(--navy);
             border-top: 1px solid var(--gray-800);
             border-bottom: 1px solid var(--gray-800);
         }
@@ -1311,7 +1409,7 @@
             line-height: 0.9;
             letter-spacing: -0.03em;
             margin-bottom: 40px;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .why-choose-title .red {
@@ -1332,7 +1430,7 @@
         }
 
         .why-item {
-            background: var(--gray-800);
+            background: var(--navy);
             padding: 40px 30px;
             border-radius: 12px;
             border: 1px solid var(--gray-700);
@@ -1355,7 +1453,7 @@
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 15px;
-            color: var(--white);
+            color: var(--navy);
         }
 
         .why-description {
@@ -1364,175 +1462,35 @@
             color: var(--gray-400);
         }
 
-        /* INSURANCE & WARRANTY */
-        .insurance-warranty {
-            padding: 200px 0;
-            background: var(--black);
-            color: var(--white);
-        }
 
-        .insurance-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 120px;
-            align-items: start;
-        }
-
-        .insurance-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(60px, 10vw, 120px);
-            font-weight: 700;
-            line-height: 0.9;
-            letter-spacing: -0.03em;
-            margin-bottom: 40px;
-            color: var(--white);
-        }
-
-        .insurance-title .red {
-            color: var(--red);
-        }
-
-        .insurance-description {
-            font-size: 20px;
-            line-height: 1.4;
-            color: var(--gray-600);
-            max-width: 400px;
-        }
-
-        .insurance-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .insurance-card {
-            background: var(--gray-800);
-            border: 1px solid var(--gray-700);
-            border-radius: 12px;
-            padding: 40px 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .card-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: var(--white);
-        }
-
-        .warranty-details {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .warranty-item {
-            font-size: 14px;
-            color: var(--gray-400);
-            line-height: 1.4;
-        }
-
-        .warranty-item strong {
-            color: var(--white);
-            font-weight: 600;
-        }
-
-        .claims-process {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .process-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 14px;
-            color: var(--gray-400);
-        }
-
-        .process-number {
-            background: var(--red);
-            color: var(--white);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .cert-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .cert-item {
-            font-size: 14px;
-            color: var(--gray-400);
-            line-height: 1.4;
-        }
-
-        /* REVIEWS MARQUEE */
-        .reviews {
-            padding: 100px 0;
-            background: var(--black);
-            color: var(--white);
+        /* VALUES MARQUEE */
+        .values-marquee {
+            padding: 60px 0;
+            background: var(--navy);
             overflow: hidden;
-            border-top: 1px solid var(--black);
-            border-bottom: 1px solid var(--black);
+            border-top: 1px solid var(--orange);
+            border-bottom: 1px solid var(--orange);
         }
 
-
-        .reviews-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .reviews-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(40px, 8vw, 80px);
-            font-weight: 700;
-            line-height: 0.9;
-            letter-spacing: -0.03em;
-            color: var(--white);
-            margin-bottom: 20px;
-        }
-
-        .reviews-subtitle {
-            font-size: 18px;
-            color: var(--gray-600);
-        }
-
-        /* REVIEWS SCROLLER */
-        .reviews-scroller {
+        .marquee-container {
             overflow: hidden;
             width: 100%;
             position: relative;
         }
 
-        .reviews-track {
+        .marquee-track {
             display: flex;
-            gap: 40px;
-            animation: reviews-scroll 30s linear infinite;
+            gap: 80px;
+            animation: marquee-scroll 40s linear infinite;
             width: max-content;
+            align-items: center;
         }
 
-        .reviews-track:hover {
+        .marquee-track:hover {
             animation-play-state: paused;
         }
 
-        @keyframes reviews-scroll {
+        @keyframes marquee-scroll {
             0% {
                 transform: translateX(0);
             }
@@ -1541,46 +1499,21 @@
             }
         }
 
-        .review-card {
+        .marquee-item {
             flex-shrink: 0;
-            width: 350px;
-            background: var(--gray-800);
-            border: 1px solid var(--gray-700);
-            border-radius: 12px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 600;
+            color: var(--cream);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
             transition: all 0.3s ease;
         }
 
-        .review-card:hover {
-            background: var(--gray-700);
-            border-color: var(--gray-600);
-            transform: translateY(-2px);
-        }
-
-        .review-stars {
-            color: var(--red);
-            font-size: 14px;
-            margin-bottom: 16px;
-            letter-spacing: 1px;
-        }
-
-        .review-text {
-            font-size: 15px;
-            line-height: 1.5;
-            margin-bottom: 16px;
-            color: var(--white);
-            font-style: italic;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .review-author {
-            font-size: 13px;
-            color: var(--gray-400);
-            font-weight: 500;
+        .marquee-item:hover {
+            color: var(--orange);
+            transform: scale(1.05);
         }
 
         /* CTA - BOLD & MINIMAL */
@@ -1588,7 +1521,7 @@
             padding: 200px 0;
             text-align: center;
             border-top: 1px solid var(--gray-800);
-            background: var(--black);
+            background: var(--navy);
         }
 
         .cta-title {
@@ -1603,11 +1536,12 @@
 
         .cta-subtitle {
             font-size: 20px;
-            color: var(--gray-600);
+            color: var(--light-cream);
             margin-bottom: 80px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            opacity: 0.9;
         }
 
         .cta-buttons {
@@ -1635,7 +1569,7 @@
 
         .btn-secondary {
             border: 2px solid var(--white);
-            color: var(--white);
+            color: var(--navy);
             background: transparent;
             padding: 18px 38px;
             text-decoration: none;
@@ -1651,114 +1585,11 @@
             transform: translateY(-2px);
         }
 
-        /* SERVICE AREAS */
-        .service-areas {
-            padding: 200px 0;
-            background: var(--gray-900);
-            border-top: 1px solid var(--gray-800);
-        }
-
-        .service-areas-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 120px;
-            align-items: center;
-        }
-
-        .service-areas-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(60px, 10vw, 120px);
-            font-weight: 700;
-            line-height: 0.9;
-            letter-spacing: -0.03em;
-            margin-bottom: 30px;
-            color: var(--white);
-        }
-
-        .service-areas-subtitle {
-            font-size: 20px;
-            color: var(--gray-600);
-            margin-bottom: 60px;
-            line-height: 1.4;
-        }
-
-        .areas-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .area-group-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .area-list {
-            list-style: none;
-        }
-
-        .area-list li {
-            padding: 8px 0;
-            font-size: 16px;
-            color: var(--gray-400);
-            border-bottom: 1px solid var(--gray-700);
-        }
-
-        .area-list li:last-child {
-            border-bottom: none;
-        }
-
-        .service-radius {
-            font-size: 16px;
-            color: var(--gray-400);
-            padding: 20px;
-            background: var(--gray-800);
-            border-radius: 8px;
-        }
-
-        .map-container {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .map-overlay {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 16px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            z-index: 10;
-        }
-
-        .map-info h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--white);
-        }
-
-        .map-info p {
-            font-size: 14px;
-            color: var(--gray-400);
-            margin: 0;
-        }
 
         /* FAQ */
         .faq {
             padding: 200px 0;
-            background: var(--black);
+            background: var(--navy);
         }
 
         .faq-header {
@@ -1778,9 +1609,10 @@
 
         .faq-subtitle {
             font-size: 18px;
-            color: var(--gray-600);
+            color: var(--light-cream);
             max-width: 500px;
             margin: 0 auto;
+            opacity: 0.9;
         }
 
         .faq-container {
@@ -1789,16 +1621,20 @@
         }
 
         .faq-item {
-            background: var(--gray-800);
+            background: rgba(245, 245, 220, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             margin-bottom: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            background: rgba(245, 245, 220, 0.08);
+            border-color: rgba(255, 140, 66, 0.3);
+            transform: translateY(-2px);
         }
 
         .faq-question {
@@ -1811,7 +1647,7 @@
             line-height: 1.4;
             cursor: pointer;
             position: relative;
-            border-bottom: 1px solid var(--gray-700);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .faq-question::after {
@@ -1822,7 +1658,7 @@
             transform: translateY(-50%);
             font-size: 24px;
             font-weight: 300;
-            color: var(--red);
+            color: var(--orange);
             transition: transform 0.3s ease;
         }
 
@@ -1833,7 +1669,8 @@
         .faq-answer {
             font-size: 15px;
             line-height: 1.6;
-            color: var(--gray-400);
+            color: var(--cream);
+            opacity: 0.9;
             padding: 0 28px 24px;
             max-height: 0;
             overflow: hidden;
@@ -2331,29 +2168,6 @@
                 line-height: 1.4;
             }
 
-            /* Insurance & Warranty mobile optimization */
-            .insurance-warranty {
-                padding: 80px 0;
-            }
-
-            .insurance-content {
-                grid-template-columns: 1fr;
-                gap: 50px;
-                text-align: center;
-            }
-
-            .insurance-title {
-                font-size: clamp(2.5rem, 12vw, 4rem);
-                line-height: 1.0;
-                margin-bottom: 24px;
-            }
-
-            .insurance-description {
-                font-size: 16px;
-                line-height: 1.5;
-                max-width: 100%;
-                margin: 0 auto 40px auto;
-            }
 
             .insurance-grid {
                 grid-template-columns: 1fr;
@@ -2408,56 +2222,6 @@
                 padding: 12px 16px;
             }
 
-            /* Service Areas mobile optimization */
-            .service-areas {
-                padding: 80px 0;
-            }
-
-            .service-areas-content {
-                grid-template-columns: 1fr;
-                gap: 50px;
-                text-align: center;
-            }
-
-            .service-areas-title {
-                font-size: clamp(2.5rem, 12vw, 4rem);
-                line-height: 1.0;
-                margin-bottom: 24px;
-            }
-
-            .service-areas-subtitle {
-                font-size: 16px;
-                line-height: 1.5;
-                margin-bottom: 40px;
-                max-width: 100%;
-            }
-
-            .areas-list {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                text-align: left;
-            }
-
-            .area-group-title {
-                font-size: 18px;
-                margin-bottom: 16px;
-            }
-
-            .area-list {
-                gap: 12px;
-            }
-
-            .area-list li {
-                font-size: 15px;
-                padding: 12px 20px;
-            }
-
-            .service-radius {
-                margin-top: 40px;
-                text-align: center;
-                font-size: 16px;
-                padding: 20px 24px;
-            }
 
             /* Our Process mobile optimization */
             .process {
@@ -2493,7 +2257,7 @@
             }
 
             .process-step {
-                background: var(--gray-800);
+                background: var(--navy);
                 border: 1px solid var(--gray-700);
                 border-radius: 12px;
                 padding: 30px 24px;
@@ -2569,28 +2333,6 @@
                 font-size: 13px;
             }
 
-            /* Insurance & Warranty extra small mobile */
-            .insurance-warranty {
-                padding: 60px 0;
-            }
-
-            .insurance-content {
-                gap: 40px;
-            }
-
-            .insurance-title {
-                font-size: clamp(2rem, 14vw, 3rem);
-                margin-bottom: 20px;
-            }
-
-            .insurance-description {
-                font-size: 15px;
-                margin-bottom: 32px;
-            }
-
-            .insurance-grid {
-                gap: 24px;
-            }
 
             .insurance-card {
                 padding: 24px 20px;
@@ -2624,48 +2366,6 @@
                 padding: 10px 14px;
             }
 
-            /* Service Areas extra small mobile */
-            .service-areas {
-                padding: 60px 0;
-            }
-
-            .service-areas-content {
-                gap: 40px;
-            }
-
-            .service-areas-title {
-                font-size: clamp(2rem, 14vw, 3rem);
-                margin-bottom: 20px;
-            }
-
-            .service-areas-subtitle {
-                font-size: 15px;
-                margin-bottom: 32px;
-            }
-
-            .areas-list {
-                gap: 24px;
-            }
-
-            .area-group-title {
-                font-size: 16px;
-                margin-bottom: 14px;
-            }
-
-            .area-list {
-                gap: 10px;
-            }
-
-            .area-list li {
-                font-size: 14px;
-                padding: 10px 16px;
-            }
-
-            .service-radius {
-                margin-top: 32px;
-                font-size: 14px;
-                padding: 16px 20px;
-            }
 
             /* Our Process extra small mobile */
             .process {
@@ -2711,59 +2411,20 @@
                 font-size: 13px;
             }
 
-            /* Reviews section enhanced mobile optimization */
-            .reviews {
-                padding: 60px 0 40px 0;
+            /* Values marquee mobile optimization */
+            .values-marquee {
+                padding: 40px 0;
             }
 
-            .reviews-header {
-                margin-bottom: 30px;
-                text-align: center;
+            .marquee-track {
+                gap: 40px;
+                animation: marquee-scroll 30s linear infinite;
             }
 
-            .reviews-title {
-                font-size: clamp(2rem, 10vw, 3rem);
-                line-height: 1.1;
-                margin-bottom: 16px;
+            .marquee-item {
+                font-size: clamp(1.5rem, 6vw, 2.5rem);
             }
 
-            .reviews-subtitle {
-                font-size: 15px;
-                line-height: 1.4;
-                color: var(--gray-500);
-                max-width: 100%;
-            }
-
-
-            /* Reviews scroller mobile */
-            .reviews-track {
-                gap: 20px;
-                animation: reviews-scroll 25s linear infinite;
-            }
-
-            .review-card {
-                width: 280px;
-                padding: 18px;
-            }
-
-            .review-stars {
-                font-size: 13px;
-                margin-bottom: 12px;
-                color: var(--red);
-            }
-
-            .review-text {
-                font-size: 14px;
-                line-height: 1.4;
-                margin-bottom: 12px;
-                -webkit-line-clamp: 4;
-            }
-
-            .review-author {
-                font-size: 12px;
-                color: var(--gray-400);
-                font-weight: 500;
-            }
         }
 
         /* Touch device optimizations */
@@ -2810,13 +2471,11 @@
     <header class="header">
         <div class="container">
             <div class="header-inner">
-                <a href="index.html" class="logo">
-                    <img src="./assets/roofstar.png" alt="RoofStar" style="height: 40px; width: auto;">
-                </a>
                 <nav class="nav">
                     <a href="#" class="active">Home</a>
-                    <a href="gallery.html">Portfolio</a>
+                    <a href="gallery.html">Maple House</a>
                     <a href="about.html">About</a>
+                    <a href="contact.html">Apply</a>
                 </nav>
                 <button class="mobile-menu-toggle" aria-label="Menu">☰</button>
             </div>
@@ -2826,12 +2485,13 @@
     <!-- Clean Mobile Navigation -->
     <div class="mobile-nav-bar">
         <div class="mobile-nav-logo">
-            <img src="./assets/roofstarwhite.png" alt="RoofStar">
+            <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 60px; width: auto;">
         </div>
         <div class="mobile-page-cards">
             <a href="index.html" class="page-card active">Home</a>
-            <a href="gallery.html" class="page-card">Portfolio</a>
+            <a href="gallery.html" class="page-card">Maple House</a>
             <a href="about.html" class="page-card">About</a>
+            <a href="contact.html" class="page-card">Apply</a>
         </div>
     </div>
 
@@ -2842,180 +2502,152 @@
             <div class="hero-content">
                 <div class="hero-left">
                     <div class="mobile-hero-logo">
-                        <img src="./assets/roofstarwhite.png" alt="RoofStar">
+                        <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 100px; width: auto; max-width: 100%;">
                     </div>
+                    <div class="hero-intro">NewBridge Living</div>
                     <h1 class="hero-title">
                         <span class="line">
-                            <span class="char">D</span><span class="char">e</span><span class="char">n</span><span class="char">v</span><span class="char">e</span><span class="char">r</span><span class="char">'</span><span class="char">s</span>
+                            <span class="char">Y</span><span class="char">o</span><span class="char">u</span><span class="char">r</span>
+                            <span class="char"> </span><span class="char">B</span><span class="char">r</span><span class="char">i</span><span class="char">d</span><span class="char">g</span><span class="char">e</span>
                         </span>
                         <span class="line">
-                            <span class="char">P</span><span class="char">r</span><span class="char">e</span><span class="char">m</span><span class="char">i</span><span class="char">e</span><span class="char">r</span>
-                        </span>
-                        <span class="line">
-                            <span class="char red">R</span><span class="char red">o</span><span class="char red">o</span><span class="char red">f</span><span class="char red">i</span><span class="char red">n</span><span class="char red">g</span>
-                        </span>
-                        <span class="line">
-                            <span class="char">C</span><span class="char">o</span><span class="char">m</span><span class="char">p</span><span class="char">a</span><span class="char">n</span><span class="char">y</span>
+                            <span class="char">t</span><span class="char">o</span><span class="char"> </span>
+                            <span class="char highlight">I</span><span class="char highlight">n</span><span class="char highlight">d</span><span class="char highlight">e</span><span class="char highlight">p</span><span class="char highlight">e</span><span class="char highlight">n</span><span class="char highlight">d</span><span class="char highlight">e</span><span class="char highlight">n</span><span class="char highlight">c</span><span class="char highlight">e</span>
                         </span>
                     </h1>
-                    <p class="hero-subtitle fade-up">Expert craftsmanship, premium materials, and unmatched service quality for residential and commercial roofing projects across the Denver metro area.</p>
+                    <p class="hero-subtitle fade-up">Safe, supportive sober living in Tallahassee. Providing dignity, stability, and growth as you rebuild your life in recovery.</p>
 
                     <div class="hero-cta-buttons fade-up">
-                        <a href="tel:(303) 555-7663" class="btn-primary">Get Free Estimate</a>
-                        <a href="tel:(303) 555-7663" class="btn-secondary">Call (303) 555-7663</a>
-                    </div>
-                </div>
-                <div class="hero-right">
-                    <div class="hero-stats">
-                        <div class="hero-stat fade-up">
-                            <div class="stat-value">4.9★</div>
-                            <div class="stat-label">Google Rating</div>
-                        </div>
-                        <div class="hero-stat fade-up">
-                            <div class="stat-value">184</div>
-                            <div class="stat-label">Reviews</div>
-                        </div>
-                        <div class="hero-stat fade-up">
-                            <div class="stat-value">6</div>
-                            <div class="stat-label">Years Serving Denver</div>
-                        </div>
+                        <a href="#application" class="btn-primary">Apply for Residency</a>
+                        <a href="tel:(850) 555-0123" class="btn-secondary">Call (850) 555-0123</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Reviews -->
-    <section class="reviews">
-            <div class="container">
-                <div class="reviews-header">
-                    <h2 class="reviews-title fade-up">Client Reviews</h2>
-                    <p class="reviews-subtitle fade-up">What our customers say about our work</p>
-                </div>
+    <!-- Why Choose Us -->
+    <section class="why-choose-us">
+        <div class="container">
+            <div class="why-choose-header">
+                <h2 class="why-choose-title">Why Choose NewBridge</h2>
+                <p class="why-choose-subtitle">Professional recovery housing with the support you need to succeed</p>
             </div>
-            <div class="reviews-scroller">
-                <div class="reviews-track">
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Outstanding work! RoofStar completely transformed our home with their metal roof installation."</p>
-                        <div class="review-author">— Sarah Johnson, Aurora</div>
+            <div class="why-choose-grid">
+                <div class="why-choose-step">
+                    <div class="step-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Best roofing company in Denver! They handled our storm damage repair perfectly."</p>
-                        <div class="review-author">— Mike Chen, Westminster</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Quality Housing</h3>
+                        <p class="step-description">Beautifully remodeled homes with modern amenities and comfortable living spaces.</p>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Incredible attention to detail. The team was professional and finished ahead of schedule."</p>
-                        <div class="review-author">— Lisa Martinez, Littleton</div>
+                </div>
+                <div class="why-choose-step">
+                    <div class="step-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Professional from start to finish. Our new roof has transformed our home's curb appeal."</p>
-                        <div class="review-author">— David Thompson, Thornton</div>
+                    <div class="step-content">
+                        <h3 class="step-title">24/7 Support</h3>
+                        <p class="step-description">Round-the-clock house management and assistance for all residents.</p>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"RoofStar exceeded our expectations. The quality of work is exceptional and reliable."</p>
-                        <div class="review-author">— Jennifer Wilson, Aurora</div>
+                </div>
+                <div class="why-choose-step">
+                    <div class="step-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Fantastic experience! The team delivered exactly what they promised."</p>
-                        <div class="review-author">— Michael Rodriguez, Denver</div>
+                    <div class="step-content">
+                        <h3 class="step-title">100% Sober Environment</h3>
+                        <p class="step-description">Strictly enforced drug and alcohol-free living environment.</p>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"After the hailstorm, RoofStar made the insurance process easy and stress-free."</p>
-                        <div class="review-author">— Karen Thompson, Highlands Ranch</div>
+                </div>
+                <div class="why-choose-step">
+                    <div class="step-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23S3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.3639 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Five years later and our roof still looks brand new. Highly recommended!"</p>
-                        <div class="review-author">— Robert Kim, Centennial</div>
-                    </div>
-                    <!-- Duplicate set for seamless loop -->
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Outstanding work! RoofStar completely transformed our home with their metal roof installation."</p>
-                        <div class="review-author">— Sarah Johnson, Aurora</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Best roofing company in Denver! They handled our storm damage repair perfectly."</p>
-                        <div class="review-author">— Mike Chen, Westminster</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Incredible attention to detail. The team was professional and finished ahead of schedule."</p>
-                        <div class="review-author">— Lisa Martinez, Littleton</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Professional from start to finish. Our new roof has transformed our home's curb appeal."</p>
-                        <div class="review-author">— David Thompson, Thornton</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"RoofStar exceeded our expectations. The quality of work is exceptional and reliable."</p>
-                        <div class="review-author">— Jennifer Wilson, Aurora</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Fantastic experience! The team delivered exactly what they promised."</p>
-                        <div class="review-author">— Michael Rodriguez, Denver</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"After the hailstorm, RoofStar made the insurance process easy and stress-free."</p>
-                        <div class="review-author">— Karen Thompson, Highlands Ranch</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="review-stars">★★★★★</div>
-                        <p class="review-text">"Five years later and our roof still looks brand new. Highly recommended!"</p>
-                        <div class="review-author">— Robert Kim, Centennial</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Prime Location</h3>
+                        <p class="step-description">Conveniently located near Tallahassee Memorial Hospital and essential resources.</p>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
+    <!-- Recovery Values -->
+    <section class="values-marquee">
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="marquee-item">Hope</div>
+                <div class="marquee-item">Healing</div>
+                <div class="marquee-item">Community</div>
+                <div class="marquee-item">Growth</div>
+                <div class="marquee-item">Independence</div>
+                <div class="marquee-item">Support</div>
+                <div class="marquee-item">Recovery</div>
+                <div class="marquee-item">Dignity</div>
+                <div class="marquee-item">Stability</div>
+                <div class="marquee-item">New Beginnings</div>
+                <!-- Duplicate for seamless loop -->
+                <div class="marquee-item">Hope</div>
+                <div class="marquee-item">Healing</div>
+                <div class="marquee-item">Community</div>
+                <div class="marquee-item">Growth</div>
+                <div class="marquee-item">Independence</div>
+                <div class="marquee-item">Support</div>
+                <div class="marquee-item">Recovery</div>
+                <div class="marquee-item">Dignity</div>
+                <div class="marquee-item">Stability</div>
+                <div class="marquee-item">New Beginnings</div>
+            </div>
+        </div>
     </section>
 
     <!-- Process -->
     <section class="process">
         <div class="container">
             <div class="process-header">
-                <h2 class="process-title fade-up">Our Process</h2>
-                <p class="process-subtitle fade-up">From consultation to completion, we ensure every step exceeds expectations</p>
+                <h2 class="process-title fade-up">Your Journey to Recovery</h2>
+                <p class="process-subtitle fade-up">From first contact to ongoing support, we guide you every step of the way</p>
             </div>
             <div class="process-grid">
                 <div class="process-step fade-up">
                     <div class="step-number">01</div>
                     <div class="step-content">
                         <h3 class="step-title">Consultation</h3>
-                        <p class="step-description">Free detailed assessment of your roofing needs with transparent pricing and timeline.</p>
+                        <p class="step-description">Free consultation to discuss your recovery goals and determine if NewBridge Living is right for you.</p>
                     </div>
                 </div>
                 <div class="process-step fade-up">
                     <div class="step-number">02</div>
                     <div class="step-content">
-                        <h3 class="step-title">Design & Planning</h3>
-                        <p class="step-description">Custom design planning with material selection and architectural precision planning.</p>
+                        <h3 class="step-title">Assessment & Planning</h3>
+                        <p class="step-description">Personal assessment with individualized recovery planning and goal setting for your journey.</p>
                     </div>
                 </div>
                 <div class="process-step fade-up">
                     <div class="step-number">03</div>
                     <div class="step-content">
-                        <h3 class="step-title">Installation</h3>
-                        <p class="step-description">Expert installation by certified professionals using premium materials and proven techniques.</p>
+                        <h3 class="step-title">Move-In & Integration</h3>
+                        <p class="step-description">Smooth transition into Maple House with orientation and integration into our supportive community.</p>
                     </div>
                 </div>
                 <div class="process-step fade-up">
                     <div class="step-number">04</div>
                     <div class="step-content">
-                        <h3 class="step-title">Quality Assurance</h3>
-                        <p class="step-description">Final inspection and 25-year warranty with ongoing maintenance support.</p>
+                        <h3 class="step-title">Ongoing Support</h3>
+                        <p class="step-description">Continuous support throughout your residency with recovery planning and goal achievement.</p>
                     </div>
                 </div>
             </div>
@@ -3027,293 +2659,120 @@
     <section class="why-work-with-us">
         <div class="container">
             <div class="why-work-header">
-                <h2 class="why-work-title">Roofing<br>Services</h2>
-                <p class="why-work-subtitle">Comprehensive roofing solutions for residential and commercial properties in Denver</p>
+                <h2 class="why-work-title">What We<br><span class="red">Offer</span></h2>
+                <p class="why-work-subtitle">All-inclusive housing amenities and services included in your stay</p>
             </div>
-            <div class="why-work-grid">
-                <div class="why-work-card">
-                    <div class="card-number">01</div>
-                    <h3 class="card-title">Roof Replacement</h3>
-                    <p class="card-description">Complete roof replacement using premium materials and expert installation techniques.</p>
-                    <div class="card-stat">25yr Warranty</div>
-                </div>
-                <div class="why-work-card">
-                    <div class="card-number">02</div>
-                    <h3 class="card-title">Roof Repair</h3>
-                    <p class="card-description">Emergency repairs and maintenance to extend your roof's lifespan and prevent damage.</p>
-                    <div class="card-stat">24/7 Service</div>
-                </div>
-                <div class="why-work-card">
-                    <div class="card-number">03</div>
-                    <h3 class="card-title">Storm Damage</h3>
-                    <p class="card-description">Expert storm damage assessment and repair with direct insurance coordination.</p>
-                    <div class="card-stat">Free Inspection</div>
-                </div>
-                <div class="why-work-card">
-                    <div class="card-number">04</div>
-                    <h3 class="card-title">Commercial Roofing</h3>
-                    <p class="card-description">Specialized commercial roofing solutions for businesses and industrial properties.</p>
-                    <div class="card-stat">Licensed & Insured</div>
-                </div>
-                <div class="why-work-card">
-                    <div class="card-number">05</div>
-                    <h3 class="card-title">Gutter Systems</h3>
-                    <p class="card-description">Professional gutter installation and repair to protect your property from water damage.</p>
-                    <div class="card-stat">Seamless Gutters</div>
-                </div>
-                <div class="why-work-card">
-                    <div class="card-number">06</div>
-                    <h3 class="card-title">Roof Inspection</h3>
-                    <p class="card-description">Thorough roof inspections to identify potential issues before they become problems.</p>
-                    <div class="card-stat">Free Estimate</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio -->
-    <section class="portfolio" id="work">
-        <div class="container">
-            <div class="portfolio-header">
-                <h2 class="portfolio-title fade-up">Featured<br>Projects</h2>
-                <p class="portfolio-subtitle fade-up">Recent roofing projects showcasing our craftsmanship and attention to detail.</p>
-            </div>
-
-            <div class="project-grid">
-                <div class="project">
-                    <div class="project-image">
-                        <img src="./assets/home3.jpg" alt="Cherry Creek Estate">
+            <div class="offerings-list">
+                <div class="offering-item">
+                    <div class="offering-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="project-content">
-                        <div class="project-number">01</div>
-                        <h3 class="project-title">Residential Roofing</h3>
-                        <p class="project-description">Complete roof replacement with architectural shingles and enhanced weather protection.</p>
-                    </div>
+                    <h3 class="offering-title">Remodeled, furnished housing</h3>
                 </div>
-
-                <div class="project">
-                    <div class="project-image">
-                        <img src="./assets/home2.jpg" alt="Highland Modern">
+                <div class="offering-item">
+                    <div class="offering-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12.55C5 12.55 9 16 12 16S19 12.55 19 12.55M12 16V21M8 21H16M12 3C16.9706 3 21 6.13401 21 10C21 10.9045 20.7611 11.7619 20.3381 12.5237C19.9151 13.2854 19.3238 13.9242 18.6213 14.3682C17.9187 14.8123 17.1268 15.0476 16.318 15.0525C15.5093 15.0574 14.7147 14.8318 14.0076 14.3951" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="project-content">
-                        <div class="project-number">02</div>
-                        <h3 class="project-title">Metal Roofing</h3>
-                        <p class="project-description">Standing seam metal roof installation with superior durability and energy efficiency.</p>
-                    </div>
+                    <h3 class="offering-title">Utilities, internet, computer, and TV access</h3>
                 </div>
-
-                <div class="project">
-                    <div class="project-image">
-                        <img src="./assets/home1.jpg" alt="Executive Residence">
+                <div class="offering-item">
+                    <div class="offering-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 6H21L19 18H5L3 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 10C16 7.79086 14.2091 6 12 6C9.79086 6 8 7.79086 8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                    <div class="project-content">
-                        <div class="project-number">03</div>
-                        <h3 class="project-title">Storm Restoration</h3>
-                        <p class="project-description">Hail damage restoration with impact-resistant materials and insurance coordination.</p>
+                    <h3 class="offering-title">On-site laundry facilities</h3>
+                </div>
+                <div class="offering-item">
+                    <div class="offering-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23S3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.3639 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <h3 class="offering-title">Convenient location near TMH & public transport</h3>
+                </div>
+                <div class="offering-item">
+                    <div class="offering-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 7H5C3.89543 7 3 7.89543 3 9V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V9C21 7.89543 20.1046 7 19 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 7V5C7 4.46957 7.21071 3.96086 7.58579 3.58579C7.96086 3.21071 8.46957 3 9 3H15C15.5304 3 16.0391 3.21071 16.4142 3.58579C16.7893 3.96086 17 4.46957 17 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="offering-title">Starter pantry & hygiene essentials</h3>
                 </div>
             </div>
         </div>
     </section>
 
 
-    <!-- Materials Showcase -->
-    <section class="materials">
+
+    <!-- Who We Welcome -->
+    <section class="who-we-welcome" style="padding: 120px 0; background: var(--navy);">
         <div class="container">
-            <div class="materials-header">
-                <h2 class="materials-title">Premium<br>Materials</h2>
-                <p class="materials-subtitle">We work exclusively with industry-leading manufacturers and premium materials designed for Colorado's demanding climate.</p>
+            <div class="welcome-header" style="text-align: center; margin-bottom: 80px;">
+                <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 700; line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 20px; color: var(--white);">Who We Welcome</h2>
+                <p style="font-size: 18px; color: var(--cream); max-width: 600px; margin: 0 auto; line-height: 1.6; opacity: 0.9;">We open our doors to anyone ready to take positive steps toward stability and independence</p>
             </div>
-            <div class="materials-grid">
-                <div class="material-card">
-                    <h3 class="material-title">Architectural Shingles</h3>
-                    <p class="material-description">High-quality dimensional shingles with enhanced wind resistance and 30-year manufacturer warranties.</p>
-                    <div class="material-brands">GAF, Owens Corning, CertainTeed</div>
+            <div class="welcome-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 800px; margin: 0 auto;">
+            <style>
+                @media (max-width: 768px) {
+                    .welcome-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+                }
+            </style>
+                <div class="welcome-item" style="text-align: center; padding: 40px 24px; background: rgba(245, 245, 220, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; transition: all 0.3s ease;">
+                    <div class="welcome-icon" style="width: 60px; height: 60px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 12px;">Individuals in recovery seeking stability</h3>
                 </div>
-                <div class="material-card">
-                    <h3 class="material-title">Standing Seam Metal</h3>
-                    <p class="material-description">Durable metal roofing with superior longevity, energy efficiency, and modern aesthetic appeal.</p>
-                    <div class="material-brands">ATAS, Berridge, McElroy</div>
+                <div class="welcome-item" style="text-align: center; padding: 40px 24px; background: rgba(245, 245, 220, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; transition: all 0.3s ease;">
+                    <div class="welcome-icon" style="width: 60px; height: 60px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 12px;">People on parole, probation, or reentry</h3>
                 </div>
-                <div class="material-card">
-                    <h3 class="material-title">Impact Resistant</h3>
-                    <p class="material-description">Class 4 hail-resistant materials designed specifically for Colorado's severe weather patterns.</p>
-                    <div class="material-brands">IKO, Malarkey, Atlas</div>
+                <div class="welcome-item" style="text-align: center; padding: 40px 24px; background: rgba(245, 245, 220, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; transition: all 0.3s ease;">
+                    <div class="welcome-icon" style="width: 60px; height: 60px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12L11 14L15 10M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 12px;">Adults with mental or behavioral health needs</h3>
                 </div>
-                <div class="material-card">
-                    <h3 class="material-title">Premium Slate & Tile</h3>
-                    <p class="material-description">Natural stone and clay tiles offering unmatched durability and timeless architectural beauty.</p>
-                    <div class="material-brands">Vermont Slate, Ludowici, Boral</div>
+                <div class="welcome-item" style="text-align: center; padding: 40px 24px; background: rgba(245, 245, 220, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; transition: all 0.3s ease;">
+                    <div class="welcome-icon" style="width: 60px; height: 60px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--white); margin-bottom: 12px;">Those experiencing homelessness ready to rebuild</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Why Choose Us -->
-    <section class="why-choose">
+    <!-- Residency Application Form -->
+    <section id="application" class="application-form" style="padding: 100px 0; background: var(--gray-100);">
         <div class="container">
-            <div class="why-choose-content">
-                <div class="why-choose-text">
-                    <h2 class="why-choose-title">Why<br>Choose<br><span class="red">RoofStar</span></h2>
-                    <p class="why-choose-description">Six years of proven excellence in Denver roofing with unmatched expertise and customer satisfaction.</p>
-                </div>
-                <div class="why-choose-grid">
-                    <div class="why-item">
-                        <h3 class="why-title">Certified Excellence</h3>
-                        <p class="why-description">Master certified roofers with OSHA 30 safety training and continuous education.</p>
-                    </div>
-                    <div class="why-item">
-                        <h3 class="why-title">25-Year Warranty</h3>
-                        <p class="why-description">Industry-leading warranty coverage on all materials and workmanship.</p>
-                    </div>
-                    <div class="why-item">
-                        <h3 class="why-title">Local Denver Focus</h3>
-                        <p class="why-description">Deep understanding of Colorado weather patterns and local building codes.</p>
-                    </div>
-                    <div class="why-item">
-                        <h3 class="why-title">Insurance Direct</h3>
-                        <p class="why-description">We work directly with insurance companies to streamline claims and maximize coverage.</p>
-                    </div>
-                    <div class="why-item">
-                        <h3 class="why-title">Emergency Response</h3>
-                        <p class="why-description">24/7 emergency storm damage response with rapid deployment team.</p>
-                    </div>
-                    <div class="why-item">
-                        <h3 class="why-title">Precision Installation</h3>
-                        <p class="why-description">Architectural precision with premium materials for lasting durability.</p>
-                    </div>
-                </div>
+            <div class="application-header" style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 3rem; font-weight: 700; color: var(--text-dark); margin-bottom: 20px;">Apply for Residency</h2>
+                <p style="font-size: 1.2rem; color: var(--text-dark); max-width: 600px; margin: 0 auto;">Take the first step towards stability and independence. Fill out our application and we'll get back to you within 24 hours.</p>
             </div>
-        </div>
-    </section>
 
-    <!-- Insurance & Warranty -->
-    <section class="insurance-warranty">
-        <div class="container">
-            <div class="insurance-content">
-                <div class="insurance-text">
-                    <h2 class="insurance-title">Insurance &<br>Warranty<br><span class="red">Protection</span></h2>
-                    <p class="insurance-description">Complete peace of mind with comprehensive warranty coverage and seamless insurance claim handling.</p>
-                </div>
-                <div class="insurance-grid">
-                    <div class="insurance-card warranty-card">
-                        <h3 class="card-title">25-Year Material Warranty</h3>
-                        <div class="warranty-details">
-                            <div class="warranty-item">
-                                <strong>Materials:</strong> Manufacturer defects covered
-                            </div>
-                            <div class="warranty-item">
-                                <strong>Workmanship:</strong> Installation guarantee
-                            </div>
-                            <div class="warranty-item">
-                                <strong>Weather:</strong> Storm damage protection
-                            </div>
-                            <div class="warranty-item">
-                                <strong>Transfer:</strong> New homeowner coverage
-                            </div>
-                        </div>
-                    </div>
-                    <div class="insurance-card insurance-claims">
-                        <h3 class="card-title">Insurance Claim Experts</h3>
-                        <div class="claims-process">
-                            <div class="process-item">
-                                <span class="process-number">1</span>
-                                <span class="process-text">Free damage assessment</span>
-                            </div>
-                            <div class="process-item">
-                                <span class="process-number">2</span>
-                                <span class="process-text">Insurance documentation</span>
-                            </div>
-                            <div class="process-item">
-                                <span class="process-number">3</span>
-                                <span class="process-text">Claims negotiation</span>
-                            </div>
-                            <div class="process-item">
-                                <span class="process-number">4</span>
-                                <span class="process-text">Approved work completion</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="insurance-card certifications">
-                        <h3 class="card-title">Professional Certifications</h3>
-                        <div class="cert-list">
-                            <div class="cert-item">✓ Better Business Bureau A+ Rating</div>
-                            <div class="cert-item">✓ Colorado Licensed & Bonded</div>
-                            <div class="cert-item">✓ OSHA 30 Safety Certified</div>
-                            <div class="cert-item">✓ Master Roofer Certified</div>
-                            <div class="cert-item">✓ GAF Master Elite Contractor</div>
-                            <div class="cert-item">✓ $2M Liability Insurance</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta">
-        <div class="container">
-            <h2 class="cta-title fade-up">Ready to Begin?</h2>
-            <p class="cta-subtitle fade-up">Schedule your consultation and discover how we transform luxury properties with unparalleled precision.</p>
-            <div class="cta-buttons fade-up">
-                <a href="tel:(303) 555-7663" class="btn-primary">Schedule Consultation</a>
-                <a href="tel:(303) 555-7663" class="btn-secondary">Call (303) 555-7663</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Service Areas -->
-    <section class="service-areas">
-        <div class="container">
-            <div class="service-areas-content">
-                <div class="service-areas-text">
-                    <h2 class="service-areas-title">Service Areas</h2>
-                    <p class="service-areas-subtitle">Proudly serving the greater Denver metropolitan area with expert roofing solutions.</p>
-                    <div class="areas-list">
-                        <div class="area-group">
-                            <h3 class="area-group-title">Primary Service Areas</h3>
-                            <ul class="area-list">
-                                <li>Aurora</li>
-                                <li>Westminster</li>
-                                <li>Thornton</li>
-                                <li>Littleton</li>
-                                <li>Arvada</li>
-                                <li>Lakewood</li>
-                            </ul>
-                        </div>
-                        <div class="area-group">
-                            <h3 class="area-group-title">Extended Coverage</h3>
-                            <ul class="area-list">
-                                <li>Greenwood Village</li>
-                                <li>Cherry Hills Village</li>
-                                <li>Centennial</li>
-                                <li>Highlands Ranch</li>
-                                <li>Broomfield</li>
-                                <li>Golden</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="service-radius">
-                        <strong>Service Radius:</strong> 25 miles from downtown Denver
-                    </div>
-                </div>
-                <div class="map-container">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d393418.8736300772!2d-105.02573355!3d39.7392364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876b80aa231f17cf%3A0x118ef4f8278a36d6!2sDenver%2C%20CO!5e0!3m2!1sen!2sus!4v1647891234567!5m2!1sen!2sus"
-                        width="100%"
-                        height="400"
-                        style="border:0; border-radius: 12px;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                    <div class="map-overlay">
-                        <div class="map-info">
-                            <h3>Service Coverage</h3>
-                            <p>25-mile radius from Denver</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="application-form-container" style="max-width: 700px; margin: 0 auto; text-align: center;">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf4st4OXtrCPwTSlJt55AIHAsKVffkWU4oPohuUutoHrv-C2g/viewform?embedded=true" width="100%" height="1982" frameborder="0" marginheight="0" marginwidth="0" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">Loading…</iframe>
             </div>
         </div>
     </section>
@@ -3323,12 +2782,12 @@
         <div class="container">
             <div class="faq-header">
                 <h2 class="faq-title">Frequently<br>Asked Questions</h2>
-                <p class="faq-subtitle">Common questions about our roofing services and process</p>
+                <p class="faq-subtitle">Common questions about sober living at NewBridge Living</p>
             </div>
             <div class="faq-container">
                 <div class="faq-item">
-                    <h3 class="faq-question">How long does a typical roof replacement take?</h3>
-                    <div class="faq-answer">Most residential roof replacements take 2-4 days depending on size, weather, and material complexity. We provide detailed timelines during consultation.</div>
+                    <h3 class="faq-question">What is the typical length of stay at NewBridge Living?</h3>
+                    <div class="faq-answer">Most residents stay 3-12 months, depending on individual recovery goals and progress. We work with each resident to determine the best timeline for their journey.</div>
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-question">Do you work with insurance companies?</h3>
@@ -3336,19 +2795,19 @@
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-question">What materials do you recommend for Colorado weather?</h3>
-                    <div class="faq-answer">We recommend impact-resistant materials like architectural shingles, metal roofing, or tile that can withstand hail, wind, and temperature fluctuations.</div>
+                    <div class="faq-answer">We require completion of a treatment program (inpatient or outpatient) and at least 30 days of sobriety. Each application is reviewed individually.</div>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-question">How much does a new roof typically cost?</h3>
+                    <h3 class="faq-question">What does it cost to live at NewBridge Living?</h3>
                     <div class="faq-answer">Costs vary by size, materials, and complexity. Most residential projects range from $12,000-$35,000. We provide detailed estimates during free consultations.</div>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-question">What's included in your warranty?</h3>
-                    <div class="faq-answer">Our 25-year warranty covers materials, workmanship, and installation. It's transferable to new homeowners and includes storm damage protection.</div>
+                    <h3 class="faq-question">What are the house rules?</h3>
+                    <div class="faq-answer">We maintain a substance-free environment with curfew, chores, mandatory meetings, and respect for fellow residents. Complete house rules are provided during intake.</div>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-question">Do you offer emergency roof repairs?</h3>
-                    <div class="faq-answer">Yes, we provide 24/7 emergency response for storm damage, leaks, and urgent repairs throughout the Denver metro area.</div>
+                    <h3 class="faq-question">What support services are available?</h3>
+                    <div class="faq-answer">We provide 24/7 house management support, peer counseling, life skills training, job placement assistance, and connections to local recovery meetings and resources.</div>
                 </div>
             </div>
         </div>
