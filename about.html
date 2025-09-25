@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — RoofStar</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e8e8e8;
+            --gray-300: #d1d1d1;
+            --gray-400: #a8a8a8;
+            --gray-500: #8a8a8a;
+            --gray-600: #6a6a6a;
+            --gray-700: #4a4a4a;
+            --gray-800: #2a2a2a;
+            --gray-900: #1a1a1a;
+            --red: #ff0000;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.4;
+            overflow-x: hidden;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /* ANIMATIONS */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in {
+            opacity: 0;
+        }
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        /* HEADER */
+        .header {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gray-800);
+            height: 56px;
+            border-radius: 28px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: fit-content;
+            min-width: auto;
+            max-width: none;
+            padding: 0;
+        }
+
+        .header.compact {
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0.7;
+            top: 54px;
+        }
+        .header.hidden {
+            transform: translateX(-50%) translateY(-120%) scale(0.6);
+            opacity: 0;
+        }
+        .header.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            border-color: var(--gray-700);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4), 0 3px 12px rgba(0, 0, 0, 0.3);
+            height: 48px;
+            top: 64px;
+            border-radius: 24px;
+        }
+        .header.scrolled.compact {
+            top: 44px;
+        }
+        .header.scrolled.hidden {
+            transform: translateX(-50%) translateY(-120%) scale(0.6);
+        }
+
+        .header-inner {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px;
+            white-space: nowrap;
+            min-height: 56px;
+        }
+
+        .header.scrolled .header-inner {
+            min-height: 48px;
+        }
+
+        .logo {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
+            border-radius: 20px;
+            padding: 8px 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .header.scrolled .logo {
+            padding: 6px 12px;
+            border-radius: 16px;
+            height: 32px;
+        }
+
+        .logo img {
+            height: 24px;
+            width: auto;
+            filter: brightness(0);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .header.scrolled .logo img {
+            height: 20px;
+        }
+
+        .nav {
+            display: none;
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 40px 20px;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-logo {
+            margin-bottom: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            height: 90px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .mobile-nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background: var(--red);
+            border-color: var(--red);
+            transform: translateY(-2px);
+        }
+
+        .mobile-contact-btn {
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            padding: 16px 32px;
+            border-radius: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+
+            .mobile-nav-bar,
+            .mobile-page-cards {
+                display: none !important;
+            }
+
+            .nav {
+                display: flex;
+                gap: 2px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                padding: 4px;
+                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                height: 40px;
+                align-items: center;
+            }
+
+            .header.scrolled .nav {
+                padding: 4px;
+                border-radius: 16px;
+                height: 32px;
+            }
+        }
+
+        .nav a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 32px;
+            box-sizing: border-box;
+        }
+
+        .header.scrolled .nav a {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 12px;
+            height: 24px;
+        }
+
+        .nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--white);
+        }
+
+        .nav a:hover::before {
+            opacity: 1;
+        }
+
+        .nav a.active {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
+            color: var(--black);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav a.active::before {
+            display: none;
+        }
+
+        .contact-btn {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 12px rgba(255, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .header.scrolled .contact-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 16px;
+            height: 32px;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff3333 0%, #ff0000 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-btn:hover::before {
+            opacity: 1;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
+        }
+
+        /* HERO */
+        .hero {
+            padding: 160px 0 120px;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            background: url('./assets/mountains.jpg') center/cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./assets/mountains.jpg') center/cover no-repeat;
+            filter: grayscale(100%) contrast(0.8) brightness(0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 80px;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .hero-title .red {
+            color: var(--red);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 480px;
+            color: var(--gray-400);
+        }
+
+        .hero-stats {
+            display: grid;
+            gap: 40px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gray-800);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .hero-stat:last-child {
+            border-bottom: none;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* ABOUT HERO SECTION */
+        .about-hero {
+            padding: 120px 0 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            background: url('./assets/mountains.jpg') center/cover no-repeat;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./assets/mountains.jpg') center/cover no-repeat;
+            filter: grayscale(100%) contrast(0.8) brightness(0.2);
+            z-index: 1;
+        }
+
+        .about-hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .about-hero-top {
+            text-align: center;
+            max-width: none;
+        }
+
+        .hero-logo {
+            margin-bottom: 50px;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .logo-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-200);
+        }
+
+        .logo-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-logo {
+            height: 80px;
+            width: auto;
+            filter: brightness(0) contrast(1);
+            transition: all 0.3s ease;
+        }
+
+        .company-intro {
+            margin-bottom: 40px;
+        }
+
+        .intro-label {
+            font-size: 14px;
+            color: var(--red);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .about-hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--white);
+        }
+
+        .about-hero-title .red {
+            color: var(--red);
+        }
+
+        .about-hero-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 700px;
+            color: var(--gray-400);
+            margin: 0 auto 30px;
+        }
+
+        .key-credentials {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .credential-icon {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--red);
+            width: 24px;
+            text-align: center;
+        }
+
+        .credential-text {
+            font-size: 16px;
+            color: var(--gray-300);
+            font-weight: 500;
+        }
+
+        .about-hero-cta {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .about-hero-bottom {
+            display: flex;
+            justify-content: center;
+        }
+
+        .company-stats {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gray-800);
+            border-radius: 20px;
+            padding: 35px 40px;
+            backdrop-filter: blur(20px);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .stats-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .stats-subtitle {
+            font-size: 14px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .certifications {
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-800);
+        }
+
+        .cert-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .cert-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 20px;
+            justify-items: center;
+        }
+
+        .cert-list li {
+            font-size: 14px;
+            color: var(--gray-400);
+            line-height: 1.4;
+            text-align: center;
+            padding: 4px 0;
+        }
+
+        /* SERVICES SECTION */
+        .services {
+            padding: 200px 0;
+            background: var(--gray-900);
+        }
+
+        .section-header {
+            margin-bottom: 120px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 540px;
+            color: var(--gray-400);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--gray-800);
+            border-radius: 16px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .service-item:hover::before {
+            opacity: 0.05;
+        }
+
+        .service-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--red);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-number {
+            background: var(--red);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--white);
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--gray-400);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* TEAM SECTION */
+        .team {
+            padding: 200px 0;
+            background: var(--black);
+        }
+
+        .team-header {
+            margin-bottom: 120px;
+        }
+
+        .team-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            margin-bottom: 80px;
+            color: var(--white);
+        }
+
+        .team-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 540px;
+            color: var(--gray-500);
+        }
+
+        .team-grid {
+            display: grid;
+            gap: 120px;
+        }
+
+        .team-member {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .team-member:nth-child(even) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .team-member:nth-child(even) .member-info {
+            order: -1;
+        }
+
+        .member-photo {
+            height: 600px;
+            background: var(--gray-900);
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .team-member:hover .member-photo {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+        }
+
+        .member-info {
+            padding: 60px 0;
+        }
+
+        .member-role {
+            font-size: 16px;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .member-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+
+        .member-bio {
+            font-size: 18px;
+            line-height: 1.5;
+            color: var(--gray-600);
+            margin-bottom: 60px;
+            max-width: 400px;
+        }
+
+        .member-credentials {
+            list-style: none;
+        }
+
+        .member-credentials li {
+            padding: 8px 0;
+            font-size: 16px;
+            color: var(--white);
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        .member-credentials li:last-child {
+            border-bottom: none;
+        }
+
+        .member-credentials strong {
+            font-weight: 600;
+        }
+
+        /* VALUES SECTION */
+        .values {
+            padding: 200px 0;
+            border-top: 1px solid var(--gray-800);
+            background: var(--gray-900);
+        }
+
+        .values-header {
+            margin-bottom: 120px;
+        }
+
+        .values-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+
+        .values-list {
+            list-style: none;
+        }
+
+        .value-item {
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 24px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .value-item:hover::before {
+            opacity: 0.05;
+        }
+
+        .value-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .value-number {
+            background: var(--red);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .value-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .value-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--gray-400);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 24px;
+            }
+
+            .team-member {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .team-member:nth-child(even) .member-info {
+                order: 0;
+            }
+
+            .value-item {
+                padding: 30px 24px;
+                margin-bottom: 16px;
+            }
+
+            .team-grid {
+                gap: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 140px 0 80px;
+            }
+
+            .hero-stats {
+                padding: 30px 20px;
+            }
+
+            .services {
+                padding: 120px 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team {
+                padding: 120px 0;
+            }
+
+            .values {
+                padding: 120px 0;
+            }
+
+            .team-header {
+                margin-bottom: 80px;
+            }
+
+            .values-header {
+                margin-bottom: 60px;
+            }
+        }
+
+        /* ABOUT HERO RESPONSIVE */
+        @media (max-width: 1200px) {
+            .about-hero-content {
+                grid-template-columns: 1fr 300px;
+                gap: 60px;
+            }
+
+            .company-stats {
+                padding: 30px 25px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .about-hero-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .about-hero-right {
+                order: -1;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 120px 0 80px;
+                min-height: auto;
+            }
+
+            .about-logo {
+                height: 60px;
+            }
+
+            .logo-container {
+                padding: 20px;
+                border-radius: 15px;
+            }
+
+            .hero-logo {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .key-credentials {
+                margin-bottom: 40px;
+            }
+        }
+
+
+        /* ABOUT HERO RESPONSIVE */
+        @media (max-width: 1024px) {
+            .about-hero-content {
+                max-width: 600px;
+                gap: 60px;
+            }
+
+            .company-stats {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 120px 0 80px;
+                min-height: 100vh;
+            }
+
+            .about-hero-content {
+                max-width: 100%;
+                gap: 35px;
+            }
+
+            .key-credentials {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .credential-item {
+                min-width: auto;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .company-stats {
+                padding: 25px 20px;
+                max-width: 100%;
+            }
+
+            .cert-list {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+
+        /* ENHANCED MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            /* Enhanced touch targets for mobile */
+            .contact-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header.scrolled .contact-btn {
+                padding: 10px 16px;
+                min-height: 40px;
+                font-size: 14px;
+            }
+
+            /* Improve mobile hero section */
+            .about-hero {
+                padding: 140px 0 100px;
+            }
+
+            .about-hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+                line-height: 1.1;
+                margin-bottom: 20px;
+            }
+
+            .about-hero-subtitle {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 30px;
+            }
+
+            /* Better mobile spacing */
+            .container {
+                padding: 0 24px;
+            }
+
+            /* Optimize service cards for mobile */
+            .services-grid {
+                gap: 30px;
+            }
+
+            .service-item {
+                padding: 30px 24px;
+                min-height: auto;
+            }
+
+            /* Mobile-friendly buttons */
+            .cta-button {
+                padding: 16px 32px;
+                font-size: 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            /* Better mobile typography */
+            .section-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                line-height: 1.2;
+                margin-bottom: 20px;
+            }
+
+            .section-subtitle {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+
+
+            /* Mobile-optimized header positioning */
+            .header {
+                display: none !important;
+            }
+
+            /* Mobile Navigation Bar */
+            .mobile-nav-bar {
+                position: fixed;
+                top: 45px;
+                left: 15px;
+                right: 15px;
+                z-index: 1500;
+                transition: opacity 0.3s ease-in-out;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-nav-bar.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .mobile-hamburger {
+                background: var(--red);
+                color: var(--white);
+                border: none;
+                border-radius: 8px;
+                padding: 6px 12px;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0 2px 12px rgba(255, 0, 0, 0.3);
+                transition: all 0.3s ease;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-hamburger:hover {
+                background: #cc0000;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 16px rgba(255, 0, 0, 0.4);
+            }
+
+            /* Mobile Page Cards */
+            .mobile-page-cards {
+                display: flex;
+                gap: 4px;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+                margin: 0 12px;
+            }
+
+            .page-card {
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                border: none;
+                border-radius: 16px;
+                padding: 6px 12px;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                font-weight: 700;
+                white-space: nowrap;
+                min-width: 50px;
+                height: 28px;
+                flex: 1;
+            }
+
+            .page-card:hover {
+                background: rgba(255, 255, 255, 1);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .page-card.active {
+                background: var(--red);
+                color: white;
+            }
+
+            .page-card.contact {
+                background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+                color: white;
+                font-size: 10px;
+                flex-direction: column;
+                padding: 4px 8px;
+                line-height: 1.1;
+                text-align: center;
+            }
+
+            .page-card.contact:hover {
+                background: linear-gradient(135deg, #cc0000 0%, #aa0000 100%);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+            }
+
+            /* Mobile Nav Logo */
+            .mobile-nav-logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-nav-logo img {
+                height: 40px;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Extra small mobile optimizations */
+            .container {
+                padding: 0 20px;
+            }
+
+            .about-hero {
+                padding: 120px 0 80px;
+            }
+
+            .about-hero-title {
+                font-size: clamp(1.8rem, 9vw, 2.5rem);
+                margin-bottom: 16px;
+            }
+
+            .about-hero-subtitle {
+                font-size: 15px;
+                margin-bottom: 24px;
+            }
+
+            .service-item {
+                padding: 24px 20px;
+            }
+
+            .contact-btn {
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+
+            .mobile-nav a {
+                font-size: 24px;
+                padding: 12px 24px;
+            }
+
+            .mobile-contact-btn {
+                font-size: 16px;
+                padding: 14px 28px;
+            }
+        }
+
+        /* Landscape phone optimization */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .about-hero {
+                min-height: 70vh;
+                padding: 100px 0 60px;
+            }
+
+            .mobile-menu-content {
+                padding: 20px;
+                justify-content: flex-start;
+                padding-top: 80px;
+            }
+
+            .mobile-nav {
+                gap: 20px;
+            }
+
+            .mobile-nav a {
+                font-size: 20px;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Team section enhanced mobile optimization */
+        @media (max-width: 768px) {
+            .team {
+                padding: 80px 0;
+            }
+
+            .team-header {
+                margin-bottom: 60px;
+                text-align: center;
+            }
+
+            .team-title {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                line-height: 1.0;
+                margin-bottom: 24px;
+                text-transform: none;
+            }
+
+            .team-subtitle {
+                font-size: 16px;
+                line-height: 1.5;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .team-grid {
+                gap: 50px;
+            }
+
+            .team-member {
+                grid-template-columns: 1fr !important;
+                gap: 30px;
+                text-align: center;
+                background: var(--gray-800);
+                border: 1px solid var(--gray-700);
+                border-radius: 16px;
+                padding: 30px 24px;
+            }
+
+            /* Ensure all team members have identical styling on mobile */
+            .team-member:nth-child(even),
+            .team-member:nth-child(odd) {
+                grid-template-columns: 1fr !important;
+                gap: 30px;
+                text-align: center;
+                background: var(--gray-800);
+                border: 1px solid var(--gray-700);
+                border-radius: 16px;
+                padding: 30px 24px;
+            }
+
+            .team-member:nth-child(even) .member-info,
+            .team-member:nth-child(odd) .member-info {
+                order: 0 !important;
+            }
+
+            .member-photo {
+                height: 280px;
+                width: 280px;
+                margin: 0 auto;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+            .member-photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .member-role {
+                font-size: 14px;
+                color: var(--red);
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+            }
+
+            .member-name {
+                font-size: 22px;
+                margin-bottom: 16px;
+                color: var(--white);
+            }
+
+            .member-bio {
+                font-size: 14px;
+                line-height: 1.5;
+                margin-bottom: 24px;
+                color: var(--gray-300);
+            }
+
+            .member-credentials {
+                text-align: left;
+                background: var(--gray-900);
+                border-radius: 8px;
+                padding: 20px;
+                margin: 0;
+            }
+
+            .member-credentials li {
+                font-size: 13px;
+                line-height: 1.4;
+                margin-bottom: 8px;
+                color: var(--gray-400);
+            }
+
+            .member-credentials li:last-child {
+                margin-bottom: 0;
+            }
+
+            .member-credentials strong {
+                color: var(--white);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team {
+                padding: 60px 0;
+            }
+
+            .team-header {
+                margin-bottom: 50px;
+            }
+
+            .team-title {
+                font-size: clamp(2rem, 14vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .team-subtitle {
+                font-size: 15px;
+            }
+
+            .team-grid {
+                gap: 40px;
+            }
+
+            .team-member {
+                padding: 24px 20px;
+            }
+
+            .member-photo {
+                height: 240px;
+                width: 240px;
+            }
+
+            .member-name {
+                font-size: 20px;
+                margin-bottom: 14px;
+            }
+
+            .member-bio {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            .member-credentials {
+                padding: 16px;
+            }
+
+            .member-credentials li {
+                font-size: 12px;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            /* Remove hover effects on touch devices */
+            .service-item:hover {
+                transform: none;
+            }
+
+            .contact-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .value-item:hover {
+                transform: none;
+            }
+
+            .team-member:hover .member-photo {
+                transform: none;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            /* Enhance tap targets */
+            button, a, .service-item, .value-item, .team-member {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+
+            /* Improve scroll performance */
+            .about-hero {
+                transform: translateZ(0);
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <img src="./assets/roofstar.png" alt="RoofStar" style="height: 40px; width: auto;">
+                </a>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="gallery.html">Portfolio</a>
+                    <a href="#" class="active">About</a>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Menu">☰</button>
+                <a href="contact.html" class="contact-btn">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Clean Mobile Navigation -->
+    <div class="mobile-nav-bar">
+        <div class="mobile-nav-logo">
+            <img src="./assets/roofstarwhite.png" alt="RoofStar">
+        </div>
+        <div class="mobile-page-cards">
+            <a href="index.html" class="page-card">Home</a>
+            <a href="gallery.html" class="page-card">Portfolio</a>
+            <a href="about.html" class="page-card active">About</a>
+            <a href="contact.html" class="page-card">Contact</a>
+        </div>
+    </div>
+
+
+    <!-- About Hero -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <div class="about-hero-top">
+                    <div class="company-intro fade-up">
+                        <span class="intro-label">ESTABLISHED 2018</span>
+                        <h1 class="about-hero-title">Seven Years of Roofing<br>Excellence in <span class="red">Denver</span></h1>
+                    </div>
+                    <p class="about-hero-subtitle fade-up">RoofStar was founded on the principle that every Denver homeowner deserves exceptional roofing craftsmanship, transparent communication, and uncompromising quality that stands the test of Colorado's demanding climate.</p>
+
+                    <div class="key-credentials fade-up">
+                        <div class="credential-item">
+                            <span class="credential-icon">✓</span>
+                            <span class="credential-text">GAF Master Elite Contractor</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-icon">✓</span>
+                            <span class="credential-text">$2M Liability Insurance</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="credential-icon">✓</span>
+                            <span class="credential-text">Locally Owned & Operated</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="about-hero-bottom">
+                    <div class="company-stats fade-up">
+                        <div class="stats-header">
+                            <h3 class="stats-title">Our Track Record</h3>
+                            <p class="stats-subtitle">Proven excellence in Denver roofing</p>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">7</div>
+                                <div class="stat-label">Years Serving Denver</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">Customer Satisfaction</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.9★</div>
+                                <div class="stat-label">Google Rating</div>
+                            </div>
+                        </div>
+
+                        <div class="certifications">
+                            <div class="cert-header">Professional Certifications</div>
+                            <ul class="cert-list">
+                                <li>✓ Better Business Bureau A+ Rating</li>
+                                <li>✓ Colorado Licensed & Bonded</li>
+                                <li>✓ OSHA 30 Safety Certified</li>
+                                <li>✓ Master Roofer Certified</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title fade-up">Roofing<br>Services</h2>
+                <p class="section-subtitle fade-up">Comprehensive roofing solutions for residential and commercial properties throughout Denver and surrounding areas.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-item fade-up">
+                    <div class="service-number">01</div>
+                    <h3 class="service-title">Roof Replacement</h3>
+                    <p class="service-description">Complete roof replacement using premium materials and expert installation techniques.</p>
+                </div>
+                <div class="service-item fade-up">
+                    <div class="service-number">02</div>
+                    <h3 class="service-title">Roof Repair</h3>
+                    <p class="service-description">Emergency repairs and maintenance to extend your roof's lifespan and prevent damage.</p>
+                </div>
+                <div class="service-item fade-up">
+                    <div class="service-number">03</div>
+                    <h3 class="service-title">Commercial Roofing</h3>
+                    <p class="service-description">Specialized commercial roofing solutions for businesses and industrial properties.</p>
+                </div>
+                <div class="service-item fade-up">
+                    <div class="service-number">04</div>
+                    <h3 class="service-title">Gutter Installation</h3>
+                    <p class="service-description">Professional gutter systems to protect your property from water damage.</p>
+                </div>
+                <div class="service-item fade-up">
+                    <div class="service-number">05</div>
+                    <h3 class="service-title">Roof Inspection</h3>
+                    <p class="service-description">Thorough roof inspections to identify potential issues before they become problems.</p>
+                </div>
+                <div class="service-item fade-up">
+                    <div class="service-number">06</div>
+                    <h3 class="service-title">Storm Damage</h3>
+                    <p class="service-description">Emergency storm damage assessment and repair services available 24/7.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="team-header">
+                <h2 class="team-title fade-up">Meet Our<br>Expert Team</h2>
+                <p class="team-subtitle fade-up">Experienced roofing professionals dedicated to delivering exceptional results on every project in the Denver area.</p>
+            </div>
+
+            <div class="team-grid">
+                <!-- John Tompkins -->
+                <div class="team-member fade-up">
+                    <div class="member-photo">
+                        <img src="./assets/john.jpg" alt="John Tompkins">
+                    </div>
+                    <div class="member-info">
+                        <div class="member-role">Founder & CEO</div>
+                        <h3 class="member-name">John Tompkins</h3>
+                        <p class="member-bio">John founded RoofStar in 2018 to bring honest, reliable roofing services to Denver homeowners and businesses. His hands-on approach ensures every project meets the highest standards.</p>
+                        <ul class="member-credentials">
+                            <li><strong>Certification:</strong> Master Roofer, PMP, OSHA 30</li>
+                            <li><strong>Specialty:</strong> Business Operations & Quality</li>
+                            <li><strong>Experience:</strong> 12 Years</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sarah Smith -->
+                <div class="team-member fade-up">
+                    <div class="member-photo">
+                        <img src="./assets/sarah.jpg" alt="Sarah Smith">
+                    </div>
+                    <div class="member-info">
+                        <div class="member-role">Client Relations Director</div>
+                        <h3 class="member-name">Sarah Smith</h3>
+                        <p class="member-bio">Sarah coordinates every aspect of our roofing projects, ensuring clear communication and customer satisfaction from estimate to completion. She's your main point of contact throughout the process.</p>
+                        <ul class="member-credentials">
+                            <li><strong>Certification:</strong> Project Management, Customer Success</li>
+                            <li><strong>Specialty:</strong> Client Experience & Design</li>
+                            <li><strong>Experience:</strong> 6 Years</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Leonard Goodman -->
+                <div class="team-member fade-up">
+                    <div class="member-photo">
+                        <img src="./assets/leonard.jpg" alt="Leonard Goodman">
+                    </div>
+                    <div class="member-info">
+                        <div class="member-role">Master Installer</div>
+                        <h3 class="member-name">Leonard Goodman</h3>
+                        <p class="member-bio">Leonard leads our installation teams with over 7 years of hands-on roofing experience. His expertise in material selection and installation ensures lasting, quality results.</p>
+                        <ul class="member-credentials">
+                            <li><strong>Certification:</strong> Slate & Tile Specialist</li>
+                            <li><strong>Specialty:</strong> Premium Materials</li>
+                            <li><strong>Experience:</strong> 7 Years</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="values">
+        <div class="container">
+            <div class="values-header">
+                <h2 class="values-title fade-up">Why Choose<br>RoofStar</h2>
+            </div>
+
+            <ul class="values-list">
+                <li class="value-item fade-up">
+                    <div class="value-number">01</div>
+                    <h3 class="value-title">Licensed & Insured</h3>
+                    <p class="value-description">Fully licensed and insured roofing contractor with comprehensive coverage for your peace of mind.</p>
+                </li>
+                <li class="value-item fade-up">
+                    <div class="value-number">02</div>
+                    <h3 class="value-title">Local Denver Experts</h3>
+                    <p class="value-description">6 years serving the Denver metro area with deep knowledge of local weather and building requirements.</p>
+                </li>
+                <li class="value-item fade-up">
+                    <div class="value-number">03</div>
+                    <h3 class="value-title">Quality Materials</h3>
+                    <p class="value-description">We use only premium roofing materials from trusted manufacturers with comprehensive warranties.</p>
+                </li>
+                <li class="value-item fade-up">
+                    <div class="value-number">04</div>
+                    <h3 class="value-title">Emergency Service</h3>
+                    <p class="value-description">24/7 emergency roofing services for storm damage and urgent repair needs throughout Denver.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        // GSAP Setup
+        gsap.registerPlugin(ScrollTrigger);
+
+
+        // Fade Up Animations
+        gsap.utils.toArray('.fade-up').forEach(element => {
+            gsap.fromTo(element,
+                {
+                    opacity: 0,
+                    y: 30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // (Old header scroll removed - using enhanced version below)
+
+        // Smooth scrolling with GSAP
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: {
+                            y: target,
+                            offsetY: 80
+                        },
+                        ease: "power2.inOut"
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Enhanced header scroll effect with dynamic behavior (from homepage)
+        const header = document.querySelector('.header');
+        let lastScrollY = window.scrollY;
+        let scrollTimer = null;
+        let isScrolling = false;
+
+        function resetHeader() {
+            header.classList.remove('compact', 'hidden');
+        }
+
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+            const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+
+            // Clear existing timer
+            if (scrollTimer) {
+                clearTimeout(scrollTimer);
+            }
+
+            // Mark as scrolling
+            isScrolling = true;
+
+            // Header scroll behavior
+            if (currentScrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                resetHeader(); // Always show header at top
+                lastScrollY = currentScrollY;
+                return;
+            }
+
+            // Dynamic header behavior based on scroll
+            if (scrollDirection === 'down' && currentScrollY > 200) {
+                if (scrollDelta > 5) { // Fast scroll down
+                    header.classList.remove('compact');
+                    header.classList.add('hidden');
+                } else if (currentScrollY > 300) { // Slow scroll down
+                    header.classList.add('compact');
+                    header.classList.remove('hidden');
+                }
+            } else if (scrollDirection === 'up') {
+                // Always show on scroll up
+                resetHeader();
+            }
+
+
+            // Set timer to show header after scroll stops
+            scrollTimer = setTimeout(() => {
+                isScrolling = false;
+                if (currentScrollY > 200) {
+                    resetHeader(); // Show header when scrolling stops
+                }
+            }, 3000); // Show after 3 seconds of no scrolling
+
+            lastScrollY = currentScrollY;
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        // Clean Mobile Navigation
+        (function() {
+            if (window.innerWidth <= 768) {
+                const mobileNavBar = document.querySelector('.mobile-nav-bar');
+                let scrollTimeout;
+
+                function handleScroll() {
+                    const scrollY = window.pageYOffset;
+
+                    if (scrollY > 100) {
+                        // Hide nav when scrolling
+                        mobileNavBar.classList.add('hidden');
+
+                        // Clear existing timeout
+                        clearTimeout(scrollTimeout);
+
+                        // Show nav after 2 seconds of no scrolling
+                        scrollTimeout = setTimeout(() => {
+                            mobileNavBar.classList.remove('hidden');
+                        }, 2000);
+                    } else {
+                        // Near top - always visible
+                        mobileNavBar.classList.remove('hidden');
+                        clearTimeout(scrollTimeout);
+                    }
+                }
+
+                window.addEventListener('scroll', handleScroll);
+
+            }
+        })();
+
+    </script>
+
+
+</body>
+</html>

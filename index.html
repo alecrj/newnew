@@ -1,0 +1,3667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoofStar</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e8e8e8;
+            --gray-300: #d1d1d1;
+            --gray-400: #a8a8a8;
+            --gray-500: #8a8a8a;
+            --gray-600: #6a6a6a;
+            --gray-700: #4a4a4a;
+            --gray-800: #2a2a2a;
+            --gray-900: #1a1a1a;
+            --red: #ff0000;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.4;
+            overflow-x: hidden;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* CURSOR - Desktop Only */
+        @media (hover: hover) and (pointer: fine) {
+            .cursor {
+                position: fixed;
+                width: 24px;
+                height: 24px;
+                pointer-events: none;
+                z-index: 9999;
+                transition: all 0.15s ease;
+                left: 0;
+                top: 0;
+                transform: translate(-50%, -50%);
+            }
+
+            .cursor::before {
+                content: '★';
+                position: absolute;
+                top: 0;
+                left: 0;
+                font-size: 20px;
+                color: var(--red);
+                text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+                transition: all 0.15s ease;
+                line-height: 1;
+            }
+
+            .cursor.large {
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+
+            .cursor.clicking::before {
+                color: var(--white);
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+                transform: scale(0.8);
+            }
+        }
+
+        /* Hide cursor on mobile/touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .cursor {
+                display: none !important;
+            }
+        }
+
+        /* ANIMATIONS */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-in {
+            opacity: 0;
+        }
+
+
+        /* PENTAGRAM GRID SYSTEM */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        /* HEADER */
+        .header {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gray-800);
+            height: 56px;
+            border-radius: 28px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: fit-content;
+            min-width: auto;
+            max-width: none;
+            padding: 0;
+        }
+
+        .header.compact {
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0.7;
+            top: 54px;
+        }
+
+        .header.hidden {
+            transform: translateX(-50%) translateY(-120%) scale(0.6);
+            opacity: 0;
+        }
+
+        .header.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            border-color: var(--gray-700);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4), 0 3px 12px rgba(0, 0, 0, 0.3);
+            height: 48px;
+            top: 64px;
+            border-radius: 24px;
+        }
+
+        .header.scrolled.compact {
+            top: 44px;
+        }
+
+        .header.scrolled.hidden {
+            transform: translateX(-50%) translateY(-120%) scale(0.6);
+        }
+
+        .header-inner {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px;
+            white-space: nowrap;
+            min-height: 56px;
+        }
+
+        .header.scrolled .header-inner {
+            min-height: 48px;
+        }
+
+        .logo {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
+            border-radius: 20px;
+            padding: 8px 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .header.scrolled .logo {
+            padding: 6px 12px;
+            border-radius: 16px;
+            height: 32px;
+        }
+
+        .logo img {
+            height: 24px;
+            width: auto;
+            filter: brightness(0);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .header.scrolled .logo img {
+            height: 20px;
+        }
+
+        .nav {
+            display: none;
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Clean Mobile Navigation - Separate from Desktop */
+        @media (max-width: 768px) {
+            /* Hide desktop pill nav completely on mobile */
+            .header {
+                display: none !important;
+            }
+
+            /* Create clean mobile nav */
+            .mobile-nav-bar {
+                position: fixed;
+                top: 45px;
+                left: 15px;
+                right: 15px;
+                z-index: 1500;
+                transition: opacity 0.3s ease-in-out;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-nav-bar.hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .mobile-hamburger {
+                background: var(--red);
+                color: var(--white);
+                border: none;
+                border-radius: 8px;
+                padding: 6px 12px;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0 2px 12px rgba(255, 0, 0, 0.3);
+                transition: all 0.3s ease;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-hamburger:hover {
+                background: #cc0000;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 16px rgba(255, 0, 0, 0.4);
+            }
+
+            /* Mobile Page Cards */
+            .mobile-page-cards {
+                display: flex;
+                gap: 4px;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+                margin: 0 12px;
+            }
+
+            .page-card {
+                background: rgba(255, 255, 255, 0.9);
+                color: #333;
+                border: none;
+                border-radius: 16px;
+                padding: 6px 12px;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                font-weight: 700;
+                white-space: nowrap;
+                min-width: 50px;
+                height: 28px;
+                flex: 1;
+            }
+
+            .page-card:hover {
+                background: rgba(255, 255, 255, 1);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .page-card.active {
+                background: var(--red);
+                color: white;
+            }
+
+
+            /* Mobile Nav Logo */
+            .mobile-nav-logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .mobile-nav-logo img {
+                height: 40px;
+                width: auto;
+            }
+
+            /* Mobile Hero Logo */
+            .mobile-hero-logo {
+                text-align: center;
+                margin: 10px auto 20px auto;
+            }
+
+            .mobile-hero-logo img {
+                height: 120px;
+                width: auto;
+                max-width: 100%;
+            }
+        }
+
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 40px 20px;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 30px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-logo {
+            margin-bottom: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90px;
+            height: 90px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .mobile-nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background: var(--red);
+            border-color: var(--red);
+            transform: translateY(-2px);
+        }
+
+
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+
+            .mobile-nav-bar,
+            .mobile-page-cards,
+            .mobile-hero-logo {
+                display: none !important;
+            }
+
+            .nav {
+                display: flex;
+                gap: 2px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                padding: 4px;
+                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                height: 40px;
+                align-items: center;
+            }
+
+            .header.scrolled .nav {
+                padding: 4px;
+                border-radius: 16px;
+                height: 32px;
+            }
+        }
+
+        .nav a {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            height: 32px;
+            box-sizing: border-box;
+        }
+
+        .header.scrolled .nav a {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 12px;
+            height: 24px;
+        }
+
+        .nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--white);
+        }
+
+        .nav a:hover::before {
+            opacity: 1;
+        }
+
+        .nav a.active {
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
+            color: var(--black);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav a.active::before {
+            display: none;
+        }
+
+
+
+        /* HERO SECTION */
+        .hero {
+            padding: 160px 0 120px;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            background: var(--black);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 10, 0.85);
+            z-index: 1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./assets/roofimage.jpg') center/cover no-repeat;
+            filter: grayscale(100%) contrast(0.8) brightness(0.6);
+            z-index: 0;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 80px;
+            align-items: start;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            max-width: none;
+            text-align: center;
+        }
+
+        .hero-left {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-intro {
+            font-size: 14px;
+            color: var(--gray-400);
+            margin-bottom: 40px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 40px;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .hero-title .red {
+            color: var(--red);
+        }
+
+        /* CHARACTER ANIMATION STYLES */
+        .hero-title .line {
+            display: block;
+            overflow: visible;
+            line-height: 1.1;
+            padding-bottom: 8px;
+        }
+
+        .hero-title .char {
+            display: inline-block;
+            transform: translateY(100%);
+            line-height: 1.1;
+        }
+
+        .hero-title .char.red {
+            color: var(--red);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 480px;
+            color: var(--gray-400);
+            margin-bottom: 40px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+        .hero-cta-buttons .btn-primary,
+        .hero-cta-buttons .btn-secondary {
+            padding: 12px 24px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .hero-stats {
+            display: grid;
+            gap: 25px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gray-800);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            margin-top: 0;
+            align-self: start;
+            height: fit-content;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .hero-stat:last-child {
+            border-bottom: none;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* SIDEBAR */
+        .hero-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 120px;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 300px;
+            background: var(--gray-900);
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--black) 50%, var(--accent) 50%);
+            opacity: 0.1;
+            z-index: 2;
+        }
+
+        .before-after-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: ew-resize;
+        }
+
+        .before-image, .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .before-image img, .after-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        .after-image {
+            clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .slider-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--red);
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--red);
+            border-radius: 50%;
+        }
+
+        /* STATS - DECONSTRUCTED */
+        .stats {
+            padding: 200px 0;
+            background: var(--black);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* PROCESS SECTION */
+        .process {
+            padding: 200px 0;
+            background: var(--gray-900);
+            border-top: 1px solid var(--gray-800);
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .process-header {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .process-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .process-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--red) 15%, var(--red) 85%, transparent 100%);
+            z-index: 1;
+        }
+
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            background: var(--red);
+            color: var(--white);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            flex-shrink: 0;
+            border: 6px solid var(--white);
+            box-shadow: 0 12px 40px rgba(255, 0, 0, 0.2);
+            position: relative;
+            z-index: 3;
+            margin-bottom: 25px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        .step-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--gray-600);
+        }
+
+        /* WHY WORK WITH US */
+        .why-work-with-us {
+            padding: 200px 0;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .why-work-header {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .why-work-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .why-work-title .red {
+            color: var(--red);
+        }
+
+        .why-work-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .why-work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .why-work-card {
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .why-work-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .why-work-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-number {
+            background: var(--red);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--gray-400);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-stat {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--red);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* PORTFOLIO - ASYMMETRICAL */
+        .portfolio {
+            padding: 200px 0;
+            background: var(--black);
+        }
+
+        .portfolio-header {
+            margin-bottom: 160px;
+        }
+
+        .portfolio-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .portfolio-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 520px;
+            color: var(--gray-400);
+        }
+
+        .project-grid {
+            display: grid;
+            gap: 120px;
+        }
+
+        .project {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .project:nth-child(even) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .project:nth-child(even) .project-content {
+            order: -1;
+        }
+
+        .project-image {
+            height: 400px;
+            background: var(--gray-900);
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+        }
+
+        .project-content {
+            padding: 0;
+        }
+
+        .project-number {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .project-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+
+        .project-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--gray-400);
+            margin-bottom: 30px;
+            max-width: 350px;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+
+        /* SERVICES - CLEAN LAYOUT */
+        .services {
+            padding: 200px 0;
+            border-top: 1px solid var(--gray-800);
+            background: var(--gray-900);
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .services-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .services-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .services-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--red) 15%, var(--red) 85%, transparent 100%);
+            z-index: 1;
+        }
+
+        .services-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .services-number {
+            background: var(--red);
+            color: var(--white);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 900;
+            flex-shrink: 0;
+            border: 6px solid var(--white);
+            box-shadow: 0 12px 40px rgba(255, 0, 0, 0.2);
+            position: relative;
+            z-index: 3;
+            margin-bottom: 25px;
+        }
+
+        .services-content {
+            flex: 1;
+        }
+
+        .services-step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        .services-step-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--gray-600);
+        }
+
+        /* MATERIALS SHOWCASE */
+        .materials {
+            padding: 200px 0;
+            background: var(--black);
+            border-top: 1px solid var(--gray-800);
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .materials-header {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .materials-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .materials-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .material-card {
+            background: var(--gray-800);
+            padding: 50px 40px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-700);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .material-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .material-icon {
+            font-size: 48px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .material-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .material-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--gray-400);
+            margin-bottom: 25px;
+        }
+
+        .material-brands {
+            font-size: 14px;
+            color: var(--red);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* WHY CHOOSE US */
+        .why-choose {
+            padding: 200px 0;
+            background: var(--gray-900);
+            border-top: 1px solid var(--gray-800);
+            border-bottom: 1px solid var(--gray-800);
+        }
+
+        .why-choose-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 120px;
+            align-items: start;
+        }
+
+        .why-choose-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .why-choose-title .red {
+            color: var(--red);
+        }
+
+        .why-choose-description {
+            font-size: 20px;
+            line-height: 1.4;
+            color: var(--gray-600);
+            max-width: 400px;
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 60px;
+        }
+
+        .why-item {
+            background: var(--gray-800);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-700);
+            transition: all 0.3s ease;
+        }
+
+        .why-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .why-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .why-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--white);
+        }
+
+        .why-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--gray-400);
+        }
+
+        /* INSURANCE & WARRANTY */
+        .insurance-warranty {
+            padding: 200px 0;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .insurance-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 120px;
+            align-items: start;
+        }
+
+        .insurance-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 40px;
+            color: var(--white);
+        }
+
+        .insurance-title .red {
+            color: var(--red);
+        }
+
+        .insurance-description {
+            font-size: 20px;
+            line-height: 1.4;
+            color: var(--gray-600);
+            max-width: 400px;
+        }
+
+        .insurance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .insurance-card {
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 12px;
+            padding: 40px 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--white);
+        }
+
+        .warranty-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .warranty-item {
+            font-size: 14px;
+            color: var(--gray-400);
+            line-height: 1.4;
+        }
+
+        .warranty-item strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .claims-process {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .process-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .process-number {
+            background: var(--red);
+            color: var(--white);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .cert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cert-item {
+            font-size: 14px;
+            color: var(--gray-400);
+            line-height: 1.4;
+        }
+
+        /* REVIEWS MARQUEE */
+        .reviews {
+            padding: 100px 0;
+            background: var(--black);
+            color: var(--white);
+            overflow: hidden;
+            border-top: 1px solid var(--black);
+            border-bottom: 1px solid var(--black);
+        }
+
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .reviews-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .reviews-subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+        }
+
+        /* REVIEWS SCROLLER */
+        .reviews-scroller {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .reviews-track {
+            display: flex;
+            gap: 40px;
+            animation: reviews-scroll 30s linear infinite;
+            width: max-content;
+        }
+
+        .reviews-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes reviews-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .review-card {
+            flex-shrink: 0;
+            width: 350px;
+            background: var(--gray-800);
+            border: 1px solid var(--gray-700);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            background: var(--gray-700);
+            border-color: var(--gray-600);
+            transform: translateY(-2px);
+        }
+
+        .review-stars {
+            color: var(--red);
+            font-size: 14px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .review-text {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            color: var(--white);
+            font-style: italic;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .review-author {
+            font-size: 13px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        /* CTA - BOLD & MINIMAL */
+        .cta {
+            padding: 200px 0;
+            text-align: center;
+            border-top: 1px solid var(--gray-800);
+            background: var(--black);
+        }
+
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(80px, 12vw, 180px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 60px;
+            color: var(--white);
+        }
+
+        .cta-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            margin-bottom: 80px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--black);
+            padding: 20px 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--white);
+            color: var(--white);
+            background: transparent;
+            padding: 18px 38px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        /* SERVICE AREAS */
+        .service-areas {
+            padding: 200px 0;
+            background: var(--gray-900);
+            border-top: 1px solid var(--gray-800);
+        }
+
+        .service-areas-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+        }
+
+        .service-areas-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .service-areas-subtitle {
+            font-size: 20px;
+            color: var(--gray-600);
+            margin-bottom: 60px;
+            line-height: 1.4;
+        }
+
+        .areas-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .area-group-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .area-list {
+            list-style: none;
+        }
+
+        .area-list li {
+            padding: 8px 0;
+            font-size: 16px;
+            color: var(--gray-400);
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        .area-list li:last-child {
+            border-bottom: none;
+        }
+
+        .service-radius {
+            font-size: 16px;
+            color: var(--gray-400);
+            padding: 20px;
+            background: var(--gray-800);
+            border-radius: 8px;
+        }
+
+        .map-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .map-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--white);
+        }
+
+        .map-info p {
+            font-size: 14px;
+            color: var(--gray-400);
+            margin: 0;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 200px 0;
+            background: var(--black);
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .faq-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(60px, 10vw, 140px);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .faq-subtitle {
+            font-size: 18px;
+            color: var(--gray-600);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--gray-800);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .faq-question {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 24px 28px;
+            margin: 0;
+            color: var(--white);
+            line-height: 1.4;
+            cursor: pointer;
+            position: relative;
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: 300;
+            color: var(--red);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .faq-answer {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--gray-400);
+            padding: 0 28px 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 0 28px 24px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr 250px;
+                gap: clamp(30px, 6vw, 60px);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .hero-stats {
+                padding: 30px 20px;
+            }
+
+            .hero-sidebar {
+                position: static;
+                order: -1;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        /* MOBILE HERO IMPROVEMENTS */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 100vh;
+                padding: 80px 0 60px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-stats {
+                order: -1;
+                max-width: 300px;
+                margin: 0 auto 40px auto;
+                padding: 25px 20px;
+            }
+
+            .hero-title {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+                line-height: 0.95;
+                margin-bottom: 24px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 32px;
+                max-width: 100%;
+            }
+
+            .hero-cta-buttons {
+                flex-direction: column;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .hero-cta-buttons .btn-primary,
+            .hero-cta-buttons .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                padding: 16px 32px;
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            .hero-image {
+                min-height: 250px;
+                max-height: 300px;
+                border-radius: 12px;
+                margin-top: 40px;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .process-grid::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                min-height: 100vh;
+                padding: 100px 0 40px;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 12vw, 3rem);
+                line-height: 1.0;
+                margin-bottom: 20px;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+                line-height: 1.4;
+                margin-bottom: 28px;
+            }
+
+            .hero-intro {
+                font-size: 12px;
+                margin-bottom: 32px;
+            }
+
+            .hero-stats {
+                padding: 20px 16px;
+                margin-bottom: 32px;
+            }
+
+            .hero-cta-buttons .btn-primary,
+            .hero-cta-buttons .btn-secondary {
+                padding: 14px 24px;
+                font-size: 15px;
+                max-width: 250px;
+            }
+
+            .hero-image {
+                min-height: 200px;
+                max-height: 250px;
+                margin-top: 32px;
+            }
+        }
+
+        /* GENERAL MOBILE GRID IMPROVEMENTS */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .project {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .project:nth-child(even) .project-content {
+                order: 0;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .services-grid::before {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+                padding: 16px 32px;
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            /* All sections mobile spacing */
+            .section {
+                padding: 80px 0;
+            }
+
+            .stats {
+                padding: 80px 0;
+            }
+
+            .portfolio {
+                padding: 120px 0;
+            }
+
+            .services {
+                padding: 120px 0;
+            }
+
+            .cta {
+                padding: 120px 0;
+            }
+
+            .portfolio-header {
+                margin-bottom: 80px;
+            }
+
+            .services-header {
+                margin-bottom: 60px;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+        }
+
+
+        /* ENHANCED MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            /* Enhanced touch targets for mobile */
+
+            /* Hero styles handled in MOBILE HERO IMPROVEMENTS section above */
+
+            /* Better mobile spacing */
+            .container {
+                padding: 0 24px;
+            }
+
+            /* Optimize service cards for mobile */
+            .services-grid {
+                gap: 30px;
+            }
+
+            .service-card {
+                padding: 30px 24px;
+                min-height: auto;
+            }
+
+            /* Mobile-friendly buttons */
+            .cta-button {
+                padding: 16px 32px;
+                font-size: 16px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            /* Better mobile typography */
+            .section-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                line-height: 1.2;
+                margin-bottom: 20px;
+            }
+
+            .section-subtitle {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+
+
+            /* Mobile-optimized header positioning */
+            .header {
+                top: 32px;
+            }
+
+            .header.scrolled {
+                top: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Extra small mobile optimizations */
+            .container {
+                padding: 0 20px;
+            }
+
+            /* Hero styles handled in MOBILE HERO IMPROVEMENTS section above */
+
+            .service-card {
+                padding: 24px 20px;
+            }
+
+
+            .mobile-nav a {
+                font-size: 24px;
+                padding: 12px 24px;
+            }
+
+
+            /* Optimize character animations for mobile performance */
+            .hero-title .char {
+                transition: transform 0.3s ease;
+            }
+
+        }
+
+        /* Landscape phone optimization */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .hero {
+                min-height: 70vh;
+                padding: 100px 0 60px;
+            }
+
+            .mobile-menu-content {
+                padding: 20px;
+                justify-content: flex-start;
+                padding-top: 80px;
+            }
+
+            .mobile-nav {
+                gap: 20px;
+            }
+
+            .mobile-nav a {
+                font-size: 20px;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Ultra-small devices (320px and below) */
+        @media (max-width: 320px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .hero {
+                min-height: 100vh;
+                padding: 80px 0 40px;
+            }
+
+            .hero-title {
+                font-size: clamp(1.5rem, 14vw, 2rem);
+                line-height: 1.1;
+                margin-bottom: 16px;
+            }
+
+            .hero-subtitle {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .hero-intro {
+                font-size: 11px;
+                margin-bottom: 24px;
+            }
+
+            .hero-stats {
+                padding: 16px 12px;
+                margin-bottom: 24px;
+            }
+
+            .hero-cta-buttons .btn-primary,
+            .hero-cta-buttons .btn-secondary {
+                padding: 12px 20px;
+                font-size: 14px;
+                max-width: 200px;
+            }
+
+            .section-title {
+                font-size: clamp(1.5rem, 8vw, 1.8rem);
+            }
+
+            .service-card {
+                padding: 20px 16px;
+            }
+
+            .mobile-nav a {
+                font-size: 20px;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Ensure all sections scale properly */
+        @media (max-width: 768px) {
+            /* Services section mobile optimization */
+            .services {
+                padding: 80px 0;
+            }
+
+            .services-header {
+                margin-bottom: 50px;
+            }
+
+            .services-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                margin-bottom: 20px;
+            }
+
+            .services-subtitle {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+
+            /* Portfolio section mobile optimization */
+            .portfolio {
+                padding: 80px 0;
+            }
+
+            .portfolio-header {
+                margin-bottom: 60px;
+            }
+
+            .portfolio-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                margin-bottom: 20px;
+            }
+
+            /* Stats section mobile optimization */
+            .stats {
+                padding: 60px 0;
+            }
+
+            .stats-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                margin-bottom: 40px;
+            }
+
+            /* CTA section mobile optimization */
+            .cta {
+                padding: 80px 0;
+            }
+
+            .cta-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                margin-bottom: 20px;
+            }
+
+            .cta-subtitle {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+            /* Why Choose Us mobile optimization */
+            .why-choose {
+                padding: 80px 0;
+            }
+
+            .why-choose-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .why-choose-title {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                line-height: 1.0;
+                margin-bottom: 24px;
+            }
+
+            .why-choose-description {
+                font-size: 16px;
+                line-height: 1.5;
+                max-width: 100%;
+                margin: 0 auto 40px auto;
+            }
+
+            .why-choose-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .why-choose-item {
+                padding: 24px 20px;
+                text-align: left;
+            }
+
+            .why-choose-item h3 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .why-choose-item p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            /* Insurance & Warranty mobile optimization */
+            .insurance-warranty {
+                padding: 80px 0;
+            }
+
+            .insurance-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .insurance-title {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                line-height: 1.0;
+                margin-bottom: 24px;
+            }
+
+            .insurance-description {
+                font-size: 16px;
+                line-height: 1.5;
+                max-width: 100%;
+                margin: 0 auto 40px auto;
+            }
+
+            .insurance-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .insurance-card {
+                padding: 30px 24px;
+                text-align: left;
+            }
+
+            .insurance-card h3 {
+                font-size: 18px;
+                margin-bottom: 16px;
+            }
+
+            .warranty-details {
+                gap: 12px;
+            }
+
+            .warranty-item {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+
+            .claims-process {
+                gap: 20px;
+            }
+
+            .claims-step {
+                padding: 16px 20px;
+            }
+
+            .step-number {
+                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                margin-bottom: 12px;
+            }
+
+            .step-title {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .cert-list {
+                gap: 12px;
+            }
+
+            .cert-item {
+                font-size: 13px;
+                padding: 12px 16px;
+            }
+
+            /* Service Areas mobile optimization */
+            .service-areas {
+                padding: 80px 0;
+            }
+
+            .service-areas-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .service-areas-title {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                line-height: 1.0;
+                margin-bottom: 24px;
+            }
+
+            .service-areas-subtitle {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 40px;
+                max-width: 100%;
+            }
+
+            .areas-list {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: left;
+            }
+
+            .area-group-title {
+                font-size: 18px;
+                margin-bottom: 16px;
+            }
+
+            .area-list {
+                gap: 12px;
+            }
+
+            .area-list li {
+                font-size: 15px;
+                padding: 12px 20px;
+            }
+
+            .service-radius {
+                margin-top: 40px;
+                text-align: center;
+                font-size: 16px;
+                padding: 20px 24px;
+            }
+
+            /* Our Process mobile optimization */
+            .process {
+                padding: 80px 0;
+            }
+
+            .process-header {
+                margin-bottom: 60px;
+                text-align: center;
+            }
+
+            .process-title {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+                line-height: 1.0;
+                margin-bottom: 24px;
+            }
+
+            .process-subtitle {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 40px;
+                max-width: 100%;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 40px;
+            }
+
+            .process-grid::before {
+                display: none;
+            }
+
+            .process-step {
+                background: var(--gray-800);
+                border: 1px solid var(--gray-700);
+                border-radius: 12px;
+                padding: 30px 24px;
+                text-align: center;
+            }
+
+            .step-number {
+                font-size: 24px;
+                width: 60px;
+                height: 60px;
+                margin-bottom: 20px;
+            }
+
+            .step-title {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .step-description {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            /* Demo footer mobile optimization */
+        }
+
+        /* Extra small mobile spacing */
+        @media (max-width: 480px) {
+            .services,
+            .portfolio,
+            .cta {
+                padding: 60px 0;
+            }
+
+            .stats {
+                padding: 40px 0;
+            }
+
+
+            /* Why Choose Us extra small mobile */
+            .why-choose {
+                padding: 60px 0;
+            }
+
+            .why-choose-content {
+                gap: 40px;
+            }
+
+            .why-choose-title {
+                font-size: clamp(2rem, 14vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .why-choose-description {
+                font-size: 15px;
+                margin-bottom: 32px;
+            }
+
+            .why-choose-grid {
+                gap: 24px;
+            }
+
+            .why-choose-item {
+                padding: 20px 16px;
+            }
+
+            .why-choose-item h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .why-choose-item p {
+                font-size: 13px;
+            }
+
+            /* Insurance & Warranty extra small mobile */
+            .insurance-warranty {
+                padding: 60px 0;
+            }
+
+            .insurance-content {
+                gap: 40px;
+            }
+
+            .insurance-title {
+                font-size: clamp(2rem, 14vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .insurance-description {
+                font-size: 15px;
+                margin-bottom: 32px;
+            }
+
+            .insurance-grid {
+                gap: 24px;
+            }
+
+            .insurance-card {
+                padding: 24px 20px;
+            }
+
+            .insurance-card h3 {
+                font-size: 16px;
+                margin-bottom: 14px;
+            }
+
+            .warranty-item {
+                font-size: 12px;
+            }
+
+            .claims-step {
+                padding: 14px 16px;
+            }
+
+            .step-number {
+                font-size: 14px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .step-title {
+                font-size: 13px;
+            }
+
+            .cert-item {
+                font-size: 12px;
+                padding: 10px 14px;
+            }
+
+            /* Service Areas extra small mobile */
+            .service-areas {
+                padding: 60px 0;
+            }
+
+            .service-areas-content {
+                gap: 40px;
+            }
+
+            .service-areas-title {
+                font-size: clamp(2rem, 14vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .service-areas-subtitle {
+                font-size: 15px;
+                margin-bottom: 32px;
+            }
+
+            .areas-list {
+                gap: 24px;
+            }
+
+            .area-group-title {
+                font-size: 16px;
+                margin-bottom: 14px;
+            }
+
+            .area-list {
+                gap: 10px;
+            }
+
+            .area-list li {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+
+            .service-radius {
+                margin-top: 32px;
+                font-size: 14px;
+                padding: 16px 20px;
+            }
+
+            /* Our Process extra small mobile */
+            .process {
+                padding: 60px 0;
+            }
+
+            .process-header {
+                margin-bottom: 50px;
+            }
+
+            .process-title {
+                font-size: clamp(2rem, 14vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            .process-subtitle {
+                font-size: 15px;
+                margin-bottom: 32px;
+            }
+
+            .process-grid {
+                gap: 24px;
+                margin-top: 32px;
+            }
+
+            .process-step {
+                padding: 24px 20px;
+            }
+
+            .step-number {
+                font-size: 20px;
+                width: 50px;
+                height: 50px;
+                margin-bottom: 16px;
+            }
+
+            .step-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+
+            .step-description {
+                font-size: 13px;
+            }
+
+            /* Reviews section enhanced mobile optimization */
+            .reviews {
+                padding: 60px 0 40px 0;
+            }
+
+            .reviews-header {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+
+            .reviews-title {
+                font-size: clamp(2rem, 10vw, 3rem);
+                line-height: 1.1;
+                margin-bottom: 16px;
+            }
+
+            .reviews-subtitle {
+                font-size: 15px;
+                line-height: 1.4;
+                color: var(--gray-500);
+                max-width: 100%;
+            }
+
+
+            /* Reviews scroller mobile */
+            .reviews-track {
+                gap: 20px;
+                animation: reviews-scroll 25s linear infinite;
+            }
+
+            .review-card {
+                width: 280px;
+                padding: 18px;
+            }
+
+            .review-stars {
+                font-size: 13px;
+                margin-bottom: 12px;
+                color: var(--red);
+            }
+
+            .review-text {
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 12px;
+                -webkit-line-clamp: 4;
+            }
+
+            .review-author {
+                font-size: 12px;
+                color: var(--gray-400);
+                font-weight: 500;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            /* Remove hover effects on touch devices */
+            .service-card:hover {
+                transform: none;
+            }
+
+
+            /* Enhance tap targets */
+            button, a, .service-card {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+
+            /* Improve scroll performance */
+            .hero {
+                transform: translateZ(0);
+            }
+
+
+            /* Disable problematic touch behaviors */
+            * {
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            input, textarea, button {
+                -webkit-user-select: auto;
+                user-select: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor -->
+    <div class="cursor"></div>
+
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <img src="./assets/roofstar.png" alt="RoofStar" style="height: 40px; width: auto;">
+                </a>
+                <nav class="nav">
+                    <a href="#" class="active">Home</a>
+                    <a href="gallery.html">Portfolio</a>
+                    <a href="about.html">About</a>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Clean Mobile Navigation -->
+    <div class="mobile-nav-bar">
+        <div class="mobile-nav-logo">
+            <img src="./assets/roofstarwhite.png" alt="RoofStar">
+        </div>
+        <div class="mobile-page-cards">
+            <a href="index.html" class="page-card active">Home</a>
+            <a href="gallery.html" class="page-card">Portfolio</a>
+            <a href="about.html" class="page-card">About</a>
+        </div>
+    </div>
+
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="mobile-hero-logo">
+                        <img src="./assets/roofstarwhite.png" alt="RoofStar">
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="line">
+                            <span class="char">D</span><span class="char">e</span><span class="char">n</span><span class="char">v</span><span class="char">e</span><span class="char">r</span><span class="char">'</span><span class="char">s</span>
+                        </span>
+                        <span class="line">
+                            <span class="char">P</span><span class="char">r</span><span class="char">e</span><span class="char">m</span><span class="char">i</span><span class="char">e</span><span class="char">r</span>
+                        </span>
+                        <span class="line">
+                            <span class="char red">R</span><span class="char red">o</span><span class="char red">o</span><span class="char red">f</span><span class="char red">i</span><span class="char red">n</span><span class="char red">g</span>
+                        </span>
+                        <span class="line">
+                            <span class="char">C</span><span class="char">o</span><span class="char">m</span><span class="char">p</span><span class="char">a</span><span class="char">n</span><span class="char">y</span>
+                        </span>
+                    </h1>
+                    <p class="hero-subtitle fade-up">Expert craftsmanship, premium materials, and unmatched service quality for residential and commercial roofing projects across the Denver metro area.</p>
+
+                    <div class="hero-cta-buttons fade-up">
+                        <a href="tel:(303) 555-7663" class="btn-primary">Get Free Estimate</a>
+                        <a href="tel:(303) 555-7663" class="btn-secondary">Call (303) 555-7663</a>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-stats">
+                        <div class="hero-stat fade-up">
+                            <div class="stat-value">4.9★</div>
+                            <div class="stat-label">Google Rating</div>
+                        </div>
+                        <div class="hero-stat fade-up">
+                            <div class="stat-value">184</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                        <div class="hero-stat fade-up">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Years Serving Denver</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews">
+            <div class="container">
+                <div class="reviews-header">
+                    <h2 class="reviews-title fade-up">Client Reviews</h2>
+                    <p class="reviews-subtitle fade-up">What our customers say about our work</p>
+                </div>
+            </div>
+            <div class="reviews-scroller">
+                <div class="reviews-track">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Outstanding work! RoofStar completely transformed our home with their metal roof installation."</p>
+                        <div class="review-author">— Sarah Johnson, Aurora</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Best roofing company in Denver! They handled our storm damage repair perfectly."</p>
+                        <div class="review-author">— Mike Chen, Westminster</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Incredible attention to detail. The team was professional and finished ahead of schedule."</p>
+                        <div class="review-author">— Lisa Martinez, Littleton</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Professional from start to finish. Our new roof has transformed our home's curb appeal."</p>
+                        <div class="review-author">— David Thompson, Thornton</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"RoofStar exceeded our expectations. The quality of work is exceptional and reliable."</p>
+                        <div class="review-author">— Jennifer Wilson, Aurora</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Fantastic experience! The team delivered exactly what they promised."</p>
+                        <div class="review-author">— Michael Rodriguez, Denver</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"After the hailstorm, RoofStar made the insurance process easy and stress-free."</p>
+                        <div class="review-author">— Karen Thompson, Highlands Ranch</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Five years later and our roof still looks brand new. Highly recommended!"</p>
+                        <div class="review-author">— Robert Kim, Centennial</div>
+                    </div>
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Outstanding work! RoofStar completely transformed our home with their metal roof installation."</p>
+                        <div class="review-author">— Sarah Johnson, Aurora</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Best roofing company in Denver! They handled our storm damage repair perfectly."</p>
+                        <div class="review-author">— Mike Chen, Westminster</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Incredible attention to detail. The team was professional and finished ahead of schedule."</p>
+                        <div class="review-author">— Lisa Martinez, Littleton</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Professional from start to finish. Our new roof has transformed our home's curb appeal."</p>
+                        <div class="review-author">— David Thompson, Thornton</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"RoofStar exceeded our expectations. The quality of work is exceptional and reliable."</p>
+                        <div class="review-author">— Jennifer Wilson, Aurora</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Fantastic experience! The team delivered exactly what they promised."</p>
+                        <div class="review-author">— Michael Rodriguez, Denver</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"After the hailstorm, RoofStar made the insurance process easy and stress-free."</p>
+                        <div class="review-author">— Karen Thompson, Highlands Ranch</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Five years later and our roof still looks brand new. Highly recommended!"</p>
+                        <div class="review-author">— Robert Kim, Centennial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Process -->
+    <section class="process">
+        <div class="container">
+            <div class="process-header">
+                <h2 class="process-title fade-up">Our Process</h2>
+                <p class="process-subtitle fade-up">From consultation to completion, we ensure every step exceeds expectations</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-step fade-up">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Consultation</h3>
+                        <p class="step-description">Free detailed assessment of your roofing needs with transparent pricing and timeline.</p>
+                    </div>
+                </div>
+                <div class="process-step fade-up">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Design & Planning</h3>
+                        <p class="step-description">Custom design planning with material selection and architectural precision planning.</p>
+                    </div>
+                </div>
+                <div class="process-step fade-up">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Installation</h3>
+                        <p class="step-description">Expert installation by certified professionals using premium materials and proven techniques.</p>
+                    </div>
+                </div>
+                <div class="process-step fade-up">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Quality Assurance</h3>
+                        <p class="step-description">Final inspection and 25-year warranty with ongoing maintenance support.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Our Services -->
+    <section class="why-work-with-us">
+        <div class="container">
+            <div class="why-work-header">
+                <h2 class="why-work-title">Roofing<br>Services</h2>
+                <p class="why-work-subtitle">Comprehensive roofing solutions for residential and commercial properties in Denver</p>
+            </div>
+            <div class="why-work-grid">
+                <div class="why-work-card">
+                    <div class="card-number">01</div>
+                    <h3 class="card-title">Roof Replacement</h3>
+                    <p class="card-description">Complete roof replacement using premium materials and expert installation techniques.</p>
+                    <div class="card-stat">25yr Warranty</div>
+                </div>
+                <div class="why-work-card">
+                    <div class="card-number">02</div>
+                    <h3 class="card-title">Roof Repair</h3>
+                    <p class="card-description">Emergency repairs and maintenance to extend your roof's lifespan and prevent damage.</p>
+                    <div class="card-stat">24/7 Service</div>
+                </div>
+                <div class="why-work-card">
+                    <div class="card-number">03</div>
+                    <h3 class="card-title">Storm Damage</h3>
+                    <p class="card-description">Expert storm damage assessment and repair with direct insurance coordination.</p>
+                    <div class="card-stat">Free Inspection</div>
+                </div>
+                <div class="why-work-card">
+                    <div class="card-number">04</div>
+                    <h3 class="card-title">Commercial Roofing</h3>
+                    <p class="card-description">Specialized commercial roofing solutions for businesses and industrial properties.</p>
+                    <div class="card-stat">Licensed & Insured</div>
+                </div>
+                <div class="why-work-card">
+                    <div class="card-number">05</div>
+                    <h3 class="card-title">Gutter Systems</h3>
+                    <p class="card-description">Professional gutter installation and repair to protect your property from water damage.</p>
+                    <div class="card-stat">Seamless Gutters</div>
+                </div>
+                <div class="why-work-card">
+                    <div class="card-number">06</div>
+                    <h3 class="card-title">Roof Inspection</h3>
+                    <p class="card-description">Thorough roof inspections to identify potential issues before they become problems.</p>
+                    <div class="card-stat">Free Estimate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="portfolio" id="work">
+        <div class="container">
+            <div class="portfolio-header">
+                <h2 class="portfolio-title fade-up">Featured<br>Projects</h2>
+                <p class="portfolio-subtitle fade-up">Recent roofing projects showcasing our craftsmanship and attention to detail.</p>
+            </div>
+
+            <div class="project-grid">
+                <div class="project">
+                    <div class="project-image">
+                        <img src="./assets/home3.jpg" alt="Cherry Creek Estate">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-number">01</div>
+                        <h3 class="project-title">Residential Roofing</h3>
+                        <p class="project-description">Complete roof replacement with architectural shingles and enhanced weather protection.</p>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-image">
+                        <img src="./assets/home2.jpg" alt="Highland Modern">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-number">02</div>
+                        <h3 class="project-title">Metal Roofing</h3>
+                        <p class="project-description">Standing seam metal roof installation with superior durability and energy efficiency.</p>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-image">
+                        <img src="./assets/home1.jpg" alt="Executive Residence">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-number">03</div>
+                        <h3 class="project-title">Storm Restoration</h3>
+                        <p class="project-description">Hail damage restoration with impact-resistant materials and insurance coordination.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Materials Showcase -->
+    <section class="materials">
+        <div class="container">
+            <div class="materials-header">
+                <h2 class="materials-title">Premium<br>Materials</h2>
+                <p class="materials-subtitle">We work exclusively with industry-leading manufacturers and premium materials designed for Colorado's demanding climate.</p>
+            </div>
+            <div class="materials-grid">
+                <div class="material-card">
+                    <h3 class="material-title">Architectural Shingles</h3>
+                    <p class="material-description">High-quality dimensional shingles with enhanced wind resistance and 30-year manufacturer warranties.</p>
+                    <div class="material-brands">GAF, Owens Corning, CertainTeed</div>
+                </div>
+                <div class="material-card">
+                    <h3 class="material-title">Standing Seam Metal</h3>
+                    <p class="material-description">Durable metal roofing with superior longevity, energy efficiency, and modern aesthetic appeal.</p>
+                    <div class="material-brands">ATAS, Berridge, McElroy</div>
+                </div>
+                <div class="material-card">
+                    <h3 class="material-title">Impact Resistant</h3>
+                    <p class="material-description">Class 4 hail-resistant materials designed specifically for Colorado's severe weather patterns.</p>
+                    <div class="material-brands">IKO, Malarkey, Atlas</div>
+                </div>
+                <div class="material-card">
+                    <h3 class="material-title">Premium Slate & Tile</h3>
+                    <p class="material-description">Natural stone and clay tiles offering unmatched durability and timeless architectural beauty.</p>
+                    <div class="material-brands">Vermont Slate, Ludowici, Boral</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="why-choose-content">
+                <div class="why-choose-text">
+                    <h2 class="why-choose-title">Why<br>Choose<br><span class="red">RoofStar</span></h2>
+                    <p class="why-choose-description">Six years of proven excellence in Denver roofing with unmatched expertise and customer satisfaction.</p>
+                </div>
+                <div class="why-choose-grid">
+                    <div class="why-item">
+                        <h3 class="why-title">Certified Excellence</h3>
+                        <p class="why-description">Master certified roofers with OSHA 30 safety training and continuous education.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3 class="why-title">25-Year Warranty</h3>
+                        <p class="why-description">Industry-leading warranty coverage on all materials and workmanship.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3 class="why-title">Local Denver Focus</h3>
+                        <p class="why-description">Deep understanding of Colorado weather patterns and local building codes.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3 class="why-title">Insurance Direct</h3>
+                        <p class="why-description">We work directly with insurance companies to streamline claims and maximize coverage.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3 class="why-title">Emergency Response</h3>
+                        <p class="why-description">24/7 emergency storm damage response with rapid deployment team.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3 class="why-title">Precision Installation</h3>
+                        <p class="why-description">Architectural precision with premium materials for lasting durability.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insurance & Warranty -->
+    <section class="insurance-warranty">
+        <div class="container">
+            <div class="insurance-content">
+                <div class="insurance-text">
+                    <h2 class="insurance-title">Insurance &<br>Warranty<br><span class="red">Protection</span></h2>
+                    <p class="insurance-description">Complete peace of mind with comprehensive warranty coverage and seamless insurance claim handling.</p>
+                </div>
+                <div class="insurance-grid">
+                    <div class="insurance-card warranty-card">
+                        <h3 class="card-title">25-Year Material Warranty</h3>
+                        <div class="warranty-details">
+                            <div class="warranty-item">
+                                <strong>Materials:</strong> Manufacturer defects covered
+                            </div>
+                            <div class="warranty-item">
+                                <strong>Workmanship:</strong> Installation guarantee
+                            </div>
+                            <div class="warranty-item">
+                                <strong>Weather:</strong> Storm damage protection
+                            </div>
+                            <div class="warranty-item">
+                                <strong>Transfer:</strong> New homeowner coverage
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insurance-card insurance-claims">
+                        <h3 class="card-title">Insurance Claim Experts</h3>
+                        <div class="claims-process">
+                            <div class="process-item">
+                                <span class="process-number">1</span>
+                                <span class="process-text">Free damage assessment</span>
+                            </div>
+                            <div class="process-item">
+                                <span class="process-number">2</span>
+                                <span class="process-text">Insurance documentation</span>
+                            </div>
+                            <div class="process-item">
+                                <span class="process-number">3</span>
+                                <span class="process-text">Claims negotiation</span>
+                            </div>
+                            <div class="process-item">
+                                <span class="process-number">4</span>
+                                <span class="process-text">Approved work completion</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insurance-card certifications">
+                        <h3 class="card-title">Professional Certifications</h3>
+                        <div class="cert-list">
+                            <div class="cert-item">✓ Better Business Bureau A+ Rating</div>
+                            <div class="cert-item">✓ Colorado Licensed & Bonded</div>
+                            <div class="cert-item">✓ OSHA 30 Safety Certified</div>
+                            <div class="cert-item">✓ Master Roofer Certified</div>
+                            <div class="cert-item">✓ GAF Master Elite Contractor</div>
+                            <div class="cert-item">✓ $2M Liability Insurance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title fade-up">Ready to Begin?</h2>
+            <p class="cta-subtitle fade-up">Schedule your consultation and discover how we transform luxury properties with unparalleled precision.</p>
+            <div class="cta-buttons fade-up">
+                <a href="tel:(303) 555-7663" class="btn-primary">Schedule Consultation</a>
+                <a href="tel:(303) 555-7663" class="btn-secondary">Call (303) 555-7663</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Areas -->
+    <section class="service-areas">
+        <div class="container">
+            <div class="service-areas-content">
+                <div class="service-areas-text">
+                    <h2 class="service-areas-title">Service Areas</h2>
+                    <p class="service-areas-subtitle">Proudly serving the greater Denver metropolitan area with expert roofing solutions.</p>
+                    <div class="areas-list">
+                        <div class="area-group">
+                            <h3 class="area-group-title">Primary Service Areas</h3>
+                            <ul class="area-list">
+                                <li>Aurora</li>
+                                <li>Westminster</li>
+                                <li>Thornton</li>
+                                <li>Littleton</li>
+                                <li>Arvada</li>
+                                <li>Lakewood</li>
+                            </ul>
+                        </div>
+                        <div class="area-group">
+                            <h3 class="area-group-title">Extended Coverage</h3>
+                            <ul class="area-list">
+                                <li>Greenwood Village</li>
+                                <li>Cherry Hills Village</li>
+                                <li>Centennial</li>
+                                <li>Highlands Ranch</li>
+                                <li>Broomfield</li>
+                                <li>Golden</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="service-radius">
+                        <strong>Service Radius:</strong> 25 miles from downtown Denver
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d393418.8736300772!2d-105.02573355!3d39.7392364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876b80aa231f17cf%3A0x118ef4f8278a36d6!2sDenver%2C%20CO!5e0!3m2!1sen!2sus!4v1647891234567!5m2!1sen!2sus"
+                        width="100%"
+                        height="400"
+                        style="border:0; border-radius: 12px;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="map-overlay">
+                        <div class="map-info">
+                            <h3>Service Coverage</h3>
+                            <p>25-mile radius from Denver</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="faq-header">
+                <h2 class="faq-title">Frequently<br>Asked Questions</h2>
+                <p class="faq-subtitle">Common questions about our roofing services and process</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">How long does a typical roof replacement take?</h3>
+                    <div class="faq-answer">Most residential roof replacements take 2-4 days depending on size, weather, and material complexity. We provide detailed timelines during consultation.</div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Do you work with insurance companies?</h3>
+                    <div class="faq-answer">Yes, we're experienced with insurance claims and work directly with adjusters to ensure proper coverage and streamlined approval processes.</div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What materials do you recommend for Colorado weather?</h3>
+                    <div class="faq-answer">We recommend impact-resistant materials like architectural shingles, metal roofing, or tile that can withstand hail, wind, and temperature fluctuations.</div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">How much does a new roof typically cost?</h3>
+                    <div class="faq-answer">Costs vary by size, materials, and complexity. Most residential projects range from $12,000-$35,000. We provide detailed estimates during free consultations.</div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What's included in your warranty?</h3>
+                    <div class="faq-answer">Our 25-year warranty covers materials, workmanship, and installation. It's transferable to new homeowners and includes storm damage protection.</div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Do you offer emergency roof repairs?</h3>
+                    <div class="faq-answer">Yes, we provide 24/7 emergency response for storm damage, leaks, and urgent repairs throughout the Denver metro area.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // GSAP Setup
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Title Character Animation
+        const titleChars = document.querySelectorAll('.hero-title .char');
+        gsap.set(titleChars, { y: '100%' });
+
+        gsap.to(titleChars, {
+            y: '0%',
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.02,
+            delay: 0.3
+        });
+
+        // Custom Cursor - Desktop Only (Enhanced Detection)
+        function isDesktopDevice() {
+            // Multiple checks to ensure we're on a desktop with mouse
+            return window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+                   !('ontouchstart' in window) &&
+                   window.innerWidth > 768;
+        }
+
+        if (isDesktopDevice()) {
+            const cursor = document.querySelector('.cursor');
+            const hoverElements = document.querySelectorAll('a, button');
+
+            if (cursor) {
+                document.addEventListener('mousemove', (e) => {
+                    gsap.to(cursor, {
+                        x: e.clientX,
+                        y: e.clientY,
+                        duration: 0.1,
+                        ease: "power2.out"
+                    });
+                });
+
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('large'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('large'));
+                });
+
+                // Cursor click effect
+                document.addEventListener('mousedown', () => {
+                    cursor.classList.add('clicking');
+                });
+
+                document.addEventListener('mouseup', () => {
+                    cursor.classList.remove('clicking');
+                });
+            }
+        }
+
+        // Hide cursor element completely on mobile/touch devices
+        if (!isDesktopDevice()) {
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                cursor.style.display = 'none';
+            }
+        }
+
+        // Fade Up Animations
+        gsap.utils.toArray('.fade-up').forEach(element => {
+            gsap.fromTo(element,
+                {
+                    opacity: 0,
+                    y: 30
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Before/After Slider with Automatic Animation
+        const slider = document.querySelector('.before-after-slider');
+        if (slider) {
+            const handle = slider.querySelector('.slider-handle');
+            const afterImage = slider.querySelector('.after-image');
+            let isDragging = false;
+            let autoPlay = true;
+            let currentPosition = 50;
+            let direction = 1;
+
+            function updateSlider(percentage) {
+                handle.style.left = percentage + '%';
+                afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+            }
+
+            function updateSliderFromMouse(x) {
+                const rect = slider.getBoundingClientRect();
+                const percentage = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+                currentPosition = percentage;
+                updateSlider(percentage);
+            }
+
+            function autoSlide() {
+                if (!isDragging && autoPlay) {
+                    currentPosition += direction * 0.5;
+
+                    if (currentPosition >= 80) {
+                        direction = -1;
+                    } else if (currentPosition <= 20) {
+                        direction = 1;
+                    }
+
+                    updateSlider(currentPosition);
+                }
+            }
+
+            setInterval(autoSlide, 60);
+
+            handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                autoPlay = false;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) updateSliderFromMouse(e.clientX);
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                setTimeout(() => { autoPlay = true; }, 3000);
+            });
+
+            slider.addEventListener('click', (e) => {
+                if (!isDragging) {
+                    autoPlay = false;
+                    updateSliderFromMouse(e.clientX);
+                    setTimeout(() => { autoPlay = true; }, 3000);
+                }
+            });
+
+            handle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                autoPlay = false;
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    updateSliderFromMouse(touch.clientX);
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+                setTimeout(() => { autoPlay = true; }, 3000);
+            });
+
+            slider.addEventListener('mouseenter', () => {
+                autoPlay = false;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    autoPlay = true;
+                }
+            });
+        }
+
+        // Enhanced header scroll effect with dynamic behavior
+        const header = document.querySelector('.header');
+        let lastScrollY = window.scrollY;
+        let scrollTimer = null;
+        let isScrolling = false;
+
+        function resetHeader() {
+            header.classList.remove('compact', 'hidden');
+        }
+
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+            const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+            const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+
+            // Clear existing timer
+            if (scrollTimer) {
+                clearTimeout(scrollTimer);
+            }
+
+            // Mark as scrolling
+            isScrolling = true;
+
+            // Header scroll behavior
+            if (currentScrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                resetHeader(); // Always show header at top
+                lastScrollY = currentScrollY;
+                return;
+            }
+
+            // Dynamic header behavior based on scroll
+            if (scrollDirection === 'down' && currentScrollY > 200) {
+                if (scrollDelta > 5) { // Fast scroll down
+                    header.classList.remove('compact');
+                    header.classList.add('hidden');
+                } else if (currentScrollY > 300) { // Slow scroll down
+                    header.classList.add('compact');
+                    header.classList.remove('hidden');
+                }
+            } else if (scrollDirection === 'up') {
+                // Always show on scroll up
+                resetHeader();
+            }
+
+
+            // Set timer to show header after scroll stops
+            scrollTimer = setTimeout(() => {
+                isScrolling = false;
+                if (currentScrollY > 200) {
+                    resetHeader(); // Show header when scrolling stops
+                }
+            }, 3000); // Show after 3 seconds of no scrolling
+
+            lastScrollY = currentScrollY;
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling with GSAP
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: {
+                            y: target,
+                            offsetY: 80
+                        },
+                        ease: "power2.inOut"
+                    });
+                }
+            });
+        });
+
+
+        // Clean Mobile Navigation
+        (function() {
+            if (window.innerWidth <= 768) {
+                const mobileNavBar = document.querySelector('.mobile-nav-bar');
+                let scrollTimeout;
+
+                function handleScroll() {
+                    const scrollY = window.pageYOffset;
+
+                    if (scrollY > 100) {
+                        // Hide nav when scrolling
+                        mobileNavBar.classList.add('hidden');
+
+                        // Clear existing timeout
+                        clearTimeout(scrollTimeout);
+
+                        // Show nav after 2 seconds of no scrolling
+                        scrollTimeout = setTimeout(() => {
+                            mobileNavBar.classList.remove('hidden');
+                        }, 2000);
+                    } else {
+                        // Near top - always visible
+                        mobileNavBar.classList.remove('hidden');
+                        clearTimeout(scrollTimeout);
+                    }
+                }
+
+                window.addEventListener('scroll', handleScroll);
+
+            }
+        })();
+
+    </script>
+
+
+
+
+
+</body>
+</html>

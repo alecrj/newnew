@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[BUSINESS NAME] - Contact Us | Free Roofing Estimates in [CITY]</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --trust-blue: #2563eb;
+            --safety-orange: #ea580c;
+            --construction-yellow: #fbbf24;
+            --professional-gray: #374151;
+            --light-gray: #f9fafb;
+            --white: #ffffff;
+            --emergency-red: #dc2626;
+            --success: #10b981;
+            --dark-blue: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--professional-gray);
+            background-color: var(--white);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Smooth scroll for entire page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Emergency Alert Bar */
+        .emergency-bar {
+            background: linear-gradient(90deg, var(--emergency-red), #b91c1c);
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .emergency-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--trust-blue));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--construction-yellow);
+        }
+
+        .header-contact {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .phone-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--construction-yellow);
+            text-decoration: none;
+        }
+
+        .emergency-btn {
+            background: var(--safety-orange);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-btn:hover {
+            background: #c2410c;
+            transform: translateY(-1px);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 40px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-list li {
+            margin: 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--professional-gray);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--trust-blue);
+            border-bottom-color: var(--safety-orange);
+            background-color: #f8fafc;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            background: linear-gradient(135deg, var(--light-gray), #e5e7eb);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-subtitle {
+            font-size: 1.4rem;
+            color: var(--professional-gray);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        /* Contact Form */
+        .contact-form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--safety-orange);
+        }
+
+        .form-title {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--professional-gray);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--trust-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .priority-section {
+            background: linear-gradient(135deg, var(--emergency-red), #b91c1c);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .priority-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .priority-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .priority-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .priority-option input[type="radio"] {
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--safety-orange), #c2410c);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3);
+        }
+
+        /* Contact Information */
+        .contact-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-method {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--trust-blue);
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .method-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--trust-blue), var(--primary-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .method-title {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .method-details {
+            color: var(--professional-gray);
+            line-height: 1.6;
+        }
+
+        .method-details a {
+            color: var(--trust-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .method-details a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Service Areas */
+        .service-areas-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .service-areas-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .service-areas-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .area-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        /* Business Hours */
+        .hours-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--construction-yellow);
+            margin-bottom: 60px;
+        }
+
+        .hours-title {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            border-left: 4px solid var(--trust-blue);
+        }
+
+        .day {
+            font-weight: 600;
+            color: var(--professional-gray);
+        }
+
+        .time {
+            color: var(--trust-blue);
+            font-weight: 500;
+        }
+
+        .emergency-notice {
+            background: linear-gradient(135deg, var(--emergency-red), #b91c1c);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--professional-gray);
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--construction-yellow);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: var(--construction-yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4b5563;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .priority-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .areas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emergency Alert Bar -->
+    <div class="emergency-bar">
+        <div class="emergency-content">
+            <span>STORM DAMAGE? EMERGENCY REPAIRS AVAILABLE 24/7</span>
+            <a href="tel:[PHONE]" style="color: var(--construction-yellow); text-decoration: none; font-weight: bold; margin-left: 20px;">CALL NOW: [PHONE]</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">[BUSINESS NAME]</div>
+            <div class="header-contact">
+                <a href="tel:[PHONE]" class="phone-number">[PHONE]</a>
+                <a href="contact.html" class="emergency-btn">GET FREE ESTIMATE</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <h1 class="page-title">Contact [BUSINESS NAME]</h1>
+            <p class="page-subtitle">Ready to get started? Contact us today for your free, no-obligation roofing estimate. Emergency services available 24/7.</p>
+        </section>
+
+        <!-- Contact Grid -->
+        <section class="contact-grid">
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <h2 class="form-title">Request Your Free Estimate</h2>
+                <form class="contact-form" action="mailto:[EMAIL]" method="post" enctype="text/plain">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="address">Property Address</label>
+                        <input type="text" id="address" name="address" class="form-input" placeholder="Street Address, City, ZIP">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="serviceType">Service Needed</label>
+                        <select id="serviceType" name="serviceType" class="form-select">
+                            <option value="">Select a service</option>
+                            <option value="roof-replacement">Complete Roof Replacement</option>
+                            <option value="roof-repair">Roof Repair</option>
+                            <option value="storm-damage">Storm Damage Assessment</option>
+                            <option value="gutter-services">Gutter Installation/Repair</option>
+                            <option value="commercial-roofing">Commercial Roofing</option>
+                            <option value="roof-inspection">Roof Inspection</option>
+                            <option value="insurance-claim">Insurance Claim Assistance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="priority-section">
+                        <div class="priority-title">Service Priority</div>
+                        <div class="priority-options">
+                            <div class="priority-option">
+                                <input type="radio" id="emergency" name="priority" value="emergency">
+                                <label for="emergency">Emergency (24-48 hours)</label>
+                            </div>
+                            <div class="priority-option">
+                                <input type="radio" id="urgent" name="priority" value="urgent">
+                                <label for="urgent">Urgent (1 week)</label>
+                            </div>
+                            <div class="priority-option">
+                                <input type="radio" id="standard" name="priority" value="standard" checked>
+                                <label for="standard">Standard (2-3 weeks)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Project Details</label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Please describe your roofing needs, any specific concerns, timeline, or questions you have..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send My Request</button>
+                </form>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info-section">
+                <div class="contact-method">
+                    <div class="method-icon">TEL</div>
+                    <h3 class="method-title">Phone</h3>
+                    <div class="method-details">
+                        <p><strong>Main:</strong> <a href="tel:[PHONE]">[PHONE]</a></p>
+                        <p><strong>Emergency:</strong> Available 24/7</p>
+                        <p>Fastest way to reach us for urgent roofing needs</p>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon">MSG</div>
+                    <h3 class="method-title">Email</h3>
+                    <div class="method-details">
+                        <p><a href="mailto:[EMAIL]">[EMAIL]</a></p>
+                        <p>Send photos of damage or project details</p>
+                        <p>We respond within 4 business hours</p>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon">LOC</div>
+                    <h3 class="method-title">Location</h3>
+                    <div class="method-details">
+                        <p>[ADDRESS]</p>
+                        <p>[CITY], [STATE] [ZIP]</p>
+                        <p>Licensed to serve [STATE] statewide</p>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="method-icon">INS</div>
+                    <h3 class="method-title">Insurance Claims</h3>
+                    <div class="method-details">
+                        <p>We work directly with your insurance company</p>
+                        <p>Free damage assessments and documentation</p>
+                        <p>Experienced with all major insurers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Areas -->
+        <section class="service-areas-section">
+            <h2>Our Service Areas</h2>
+            <p>Proudly serving [CITY] and surrounding communities throughout [COUNTY] County and beyond.</p>
+
+            <div class="areas-grid">
+                <div class="area-item">[CITY]</div>
+                <div class="area-item">[AREA_1]</div>
+                <div class="area-item">[AREA_2]</div>
+                <div class="area-item">[AREA_3]</div>
+                <div class="area-item">[AREA_4]</div>
+                <div class="area-item">[AREA_5]</div>
+                <div class="area-item">[AREA_6]</div>
+                <div class="area-item">[AREA_7]</div>
+            </div>
+        </section>
+
+        <!-- Business Hours -->
+        <section class="hours-section">
+            <h2 class="hours-title">Business Hours & Availability</h2>
+            <div class="hours-grid">
+                <div class="hours-item">
+                    <span class="day">Monday - Friday</span>
+                    <span class="time">[HOURS]</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">Saturday</span>
+                    <span class="time">[SAT_HOURS]</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">Sunday</span>
+                    <span class="time">Emergency Only</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">After Hours</span>
+                    <span class="time">Emergency Service</span>
+                </div>
+            </div>
+
+            <div class="emergency-notice">
+                EMERGENCY ROOFING SERVICES AVAILABLE 24/7 - CALL [PHONE] FOR IMMEDIATE ASSISTANCE
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>[BUSINESS NAME]</h3>
+                <p>Professional roofing services in [CITY] and surrounding areas. Licensed, insured, and committed to quality.</p>
+                <p><strong>License:</strong> [LICENSE_NUMBER]</p>
+                <p><strong>Insurance:</strong> Fully Insured</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <p><a href="services.html">Roof Replacement</a></p>
+                <p><a href="services.html">Storm Damage Repair</a></p>
+                <p><a href="services.html">Roof Repairs</a></p>
+                <p><a href="services.html">Gutter Services</a></p>
+                <p><a href="services.html">Commercial Roofing</a></p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Phone: <a href="tel:[PHONE]">[PHONE]</a></p>
+                <p>Email: <a href="mailto:[EMAIL]">[EMAIL]</a></p>
+                <p>Address: [ADDRESS]</p>
+                <p>Hours: Mon-Fri [HOURS], Sat [SAT_HOURS]</p>
+                <p>Emergency: 24/7</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Service Areas</h3>
+                <p>[CITY] and surrounding areas:</p>
+                <p>[AREA_1], [AREA_2], [AREA_3]</p>
+                <p>[AREA_4], [AREA_5], [AREA_6]</p>
+                <p>Call to confirm service in your area</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 [BUSINESS NAME]. All rights reserved. | Licensed & Insured | Emergency Services Available 24/7</p>
+        </div>
+    </footer>
+</body>
+</html>

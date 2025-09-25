@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[BUSINESS NAME] - Professional Roofing Services in [CITY]</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --trust-blue: #2563eb;
+            --safety-orange: #ea580c;
+            --construction-yellow: #fbbf24;
+            --professional-gray: #374151;
+            --light-gray: #f9fafb;
+            --white: #ffffff;
+            --emergency-red: #dc2626;
+            --success: #10b981;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--professional-gray);
+            background-color: var(--white);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Premium animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Emergency Alert Bar */
+        .emergency-bar {
+            background: linear-gradient(90deg, var(--emergency-red), #b91c1c);
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .emergency-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .emergency-icon {
+            margin-right: 8px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--trust-blue));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--construction-yellow);
+        }
+
+        .header-contact {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .phone-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--construction-yellow);
+            text-decoration: none;
+        }
+
+        .emergency-btn {
+            background: var(--safety-orange);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-btn:hover {
+            background: #c2410c;
+            transform: translateY(-1px);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 40px;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-list li {
+            margin: 0;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: var(--professional-gray);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--trust-blue);
+            border-bottom-color: var(--safety-orange);
+            background-color: #f8fafc;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--light-gray), #e5e7eb);
+            border-radius: 10px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: var(--professional-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--safety-orange);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--trust-blue);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .service-description {
+            color: var(--professional-gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-features li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .service-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--safety-orange);
+            font-weight: bold;
+        }
+
+        .service-cta {
+            background: var(--trust-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .service-cta:hover {
+            background: var(--primary-blue);
+            transform: translateY(-1px);
+        }
+
+        /* Emergency Section */
+        .emergency-section {
+            background: linear-gradient(135deg, var(--emergency-red), #b91c1c);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .emergency-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .emergency-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .emergency-phone {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--construction-yellow);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .emergency-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .emergency-feature {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .emergency-feature h4 {
+            color: var(--construction-yellow);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--professional-gray);
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: var(--construction-yellow);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: var(--construction-yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4b5563;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-phone {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Emergency Alert Bar -->
+    <div class="emergency-bar">
+        <div class="emergency-content">
+            <span class="emergency-icon"></span>
+            <span>STORM DAMAGE? EMERGENCY REPAIRS AVAILABLE 24/7</span>
+            <a href="tel:[PHONE]" style="color: var(--construction-yellow); text-decoration: none; font-weight: bold;">CALL NOW: [PHONE]</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">[BUSINESS NAME]</div>
+            <div class="header-contact">
+                <a href="tel:[PHONE]" class="phone-number">[PHONE]</a>
+                <a href="#contact" class="emergency-btn">GET FREE ESTIMATE</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link active">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <h1 class="page-title">Professional Roofing Services</h1>
+            <p class="page-subtitle">Comprehensive roofing solutions for [CITY] homeowners and businesses. Licensed, insured, and trusted since [YEAR].</p>
+        </section>
+
+        <!-- Services Grid -->
+        <section class="services-grid">
+            <!-- Roof Replacement -->
+            <div class="service-card">
+                <div class="service-icon">NEW</div>
+                <h2 class="service-title">Complete Roof Replacement</h2>
+                <p class="service-description">Full roof replacement using premium materials and industry-leading installation techniques. We handle everything from permits to cleanup.</p>
+                <ul class="service-features">
+                    <li>Free detailed inspection and estimate</li>
+                    <li>Premium shingles and materials</li>
+                    <li>Permit handling and inspections</li>
+                    <li>Debris removal and cleanup</li>
+                    <li>[WARRANTY] year warranty</li>
+                    <li>Insurance claim assistance</li>
+                </ul>
+                <a href="contact.html" class="service-cta">Get Free Estimate</a>
+            </div>
+
+            <!-- Storm Damage Repair -->
+            <div class="service-card">
+                <div class="service-icon">SOS</div>
+                <h2 class="service-title">Storm Damage Repair</h2>
+                <p class="service-description">Emergency storm damage assessment and repair services. We work directly with your insurance company to streamline the claims process.</p>
+                <ul class="service-features">
+                    <li>24/7 emergency response</li>
+                    <li>Insurance claim documentation</li>
+                    <li>Temporary leak repairs</li>
+                    <li>Complete damage assessment</li>
+                    <li>Direct insurance billing</li>
+                    <li>Fast-track scheduling</li>
+                </ul>
+                <a href="tel:[PHONE]" class="service-cta">Call for Emergency</a>
+            </div>
+
+            <!-- Roof Repairs -->
+            <div class="service-card">
+                <div class="service-icon">FIX</div>
+                <h2 class="service-title">Roof Repairs</h2>
+                <p class="service-description">Professional roof repairs for leaks, missing shingles, flashing issues, and general maintenance. Quick response and lasting solutions.</p>
+                <ul class="service-features">
+                    <li>Leak detection and repair</li>
+                    <li>Shingle replacement</li>
+                    <li>Flashing repairs</li>
+                    <li>Gutter maintenance</li>
+                    <li>Ventilation improvements</li>
+                    <li>Preventive maintenance</li>
+                </ul>
+                <a href="contact.html" class="service-cta">Schedule Repair</a>
+            </div>
+
+            <!-- Gutter Services -->
+            <div class="service-card">
+                <div class="service-icon">H2O</div>
+                <h2 class="service-title">Gutter Installation & Repair</h2>
+                <p class="service-description">Complete gutter solutions including installation, repair, cleaning, and gutter guard systems to protect your home's foundation.</p>
+                <ul class="service-features">
+                    <li>Seamless gutter installation</li>
+                    <li>Gutter guard systems</li>
+                    <li>Downspout repairs</li>
+                    <li>Professional cleaning</li>
+                    <li>Foundation protection</li>
+                    <li>Custom color matching</li>
+                </ul>
+                <a href="contact.html" class="service-cta">Learn More</a>
+            </div>
+
+            <!-- Commercial Roofing -->
+            <div class="service-card">
+                <div class="service-icon">BIZ</div>
+                <h2 class="service-title">Commercial Roofing</h2>
+                <p class="service-description">Specialized commercial roofing services for businesses, including flat roofs, metal roofing, and building maintenance programs.</p>
+                <ul class="service-features">
+                    <li>Flat roof specialists</li>
+                    <li>Metal roofing systems</li>
+                    <li>Preventive maintenance plans</li>
+                    <li>Emergency commercial repairs</li>
+                    <li>Building code compliance</li>
+                    <li>Minimal business disruption</li>
+                </ul>
+                <a href="contact.html" class="service-cta">Commercial Quote</a>
+            </div>
+
+            <!-- Roof Inspections -->
+            <div class="service-card">
+                <div class="service-icon">CHK</div>
+                <h2 class="service-title">Professional Roof Inspections</h2>
+                <p class="service-description">Comprehensive roof inspections for home buyers, insurance claims, and preventive maintenance. Detailed reports with photos and recommendations.</p>
+                <ul class="service-features">
+                    <li>Detailed inspection reports</li>
+                    <li>High-resolution photos</li>
+                    <li>Insurance documentation</li>
+                    <li>Buyer/seller inspections</li>
+                    <li>Maintenance recommendations</li>
+                    <li>Same-day reporting</li>
+                </ul>
+                <a href="contact.html" class="service-cta">Book Inspection</a>
+            </div>
+        </section>
+
+        <!-- Emergency Section -->
+        <section class="emergency-section">
+            <h2 class="emergency-title">Emergency Roofing Services</h2>
+            <p class="emergency-subtitle">Don't wait when your roof is compromised. We're available 24/7 for emergency repairs.</p>
+            <a href="tel:[PHONE]" class="emergency-phone">[PHONE]</a>
+            <div class="emergency-features">
+                <div class="emergency-feature">
+                    <h4>Immediate Response</h4>
+                    <p>On-site within [RESPONSE_TIME] hours for emergency situations</p>
+                </div>
+                <div class="emergency-feature">
+                    <h4>Temporary Repairs</h4>
+                    <p>Quick temporary fixes to prevent further damage</p>
+                </div>
+                <div class="emergency-feature">
+                    <h4>Insurance Help</h4>
+                    <p>Complete documentation for insurance claims</p>
+                </div>
+                <div class="emergency-feature">
+                    <h4>24/7 Availability</h4>
+                    <p>Emergency service available day and night</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>[BUSINESS NAME]</h3>
+                <p>Professional roofing services in [CITY] and surrounding areas. Licensed, insured, and committed to quality.</p>
+                <p><strong>License #:</strong> [LICENSE_NUMBER]</p>
+                <p><strong>Insurance:</strong> Fully Insured</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Services</h3>
+                <p><a href="services.html">Roof Replacement</a></p>
+                <p><a href="services.html">Storm Damage Repair</a></p>
+                <p><a href="services.html">Roof Repairs</a></p>
+                <p><a href="services.html">Gutter Services</a></p>
+                <p><a href="services.html">Commercial Roofing</a></p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><a href="tel:[PHONE]">[PHONE]</a></p>
+                <p><a href="mailto:[EMAIL]">[EMAIL]</a></p>
+                <p>[ADDRESS]</p>
+                <p>Mon-Fri: [HOURS], Sat: [SAT_HOURS]</p>
+                <p>Emergency: 24/7</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Service Areas</h3>
+                <p>[CITY] and surrounding areas:</p>
+                <p>[AREA_1], [AREA_2], [AREA_3]</p>
+                <p>[AREA_4], [AREA_5], [AREA_6]</p>
+                <p>Call to confirm service in your area</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 [BUSINESS NAME]. All rights reserved. | Licensed & Insured | Emergency Services Available 24/7</p>
+        </div>
+    </footer>
+</body>
+</html>
