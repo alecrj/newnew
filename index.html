@@ -296,59 +296,52 @@
             }
 
             .page-card {
-                background: rgba(255, 255, 255, 0.9);
-                color: #333;
-                border: none;
+                background: rgba(255, 255, 255, 0.15);
+                color: var(--white);
+                border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 16px;
-                padding: 6px 12px;
+                padding: 8px 12px;
                 text-decoration: none;
                 transition: all 0.3s ease;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 11px;
-                font-weight: 700;
+                font-size: 12px;
+                font-weight: 600;
                 white-space: nowrap;
-                min-width: 50px;
-                height: 28px;
+                min-width: 60px;
+                height: 32px;
                 flex: 1;
             }
 
             .page-card:hover {
-                background: rgba(255, 255, 255, 1);
+                background: rgba(255, 255, 255, 0.25);
+                border-color: rgba(255, 140, 66, 0.4);
                 transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 4px 16px rgba(255, 140, 66, 0.1);
             }
 
             .page-card.active {
-                background: var(--red);
-                color: var(--navy);
+                background: var(--orange);
+                color: var(--white);
+                border-color: var(--orange);
+                box-shadow: 0 4px 16px rgba(255, 140, 66, 0.3);
             }
 
 
-            /* Mobile Nav Logo */
-            .mobile-nav-logo {
+            /* Mobile navigation without logo - center the cards */
+            .mobile-nav-bar {
                 display: flex;
                 align-items: center;
                 justify-content: center;
             }
 
-            .mobile-nav-logo img {
-                height: 40px;
-                width: auto;
-            }
-
-            /* Mobile Hero Logo */
-            .mobile-hero-logo {
-                text-align: center;
+            /* Mobile hero intro spacing */
+            .hero-intro {
                 margin: 10px auto 20px auto;
-            }
-
-            .mobile-hero-logo img {
-                height: 120px;
-                width: auto;
-                max-width: 100%;
+                text-align: center;
             }
         }
 
@@ -446,8 +439,7 @@
             }
 
             .mobile-nav-bar,
-            .mobile-page-cards,
-            .mobile-hero-logo {
+            .mobile-page-cards {
                 display: none !important;
             }
 
@@ -2257,11 +2249,26 @@
             }
 
             .process-step {
-                background: var(--navy);
-                border: 1px solid var(--gray-700);
+                background: var(--white);
+                border: 2px solid var(--orange);
                 border-radius: 12px;
                 padding: 30px 24px;
                 text-align: center;
+            }
+
+            .process-step .step-title {
+                color: var(--navy) !important;
+                font-weight: 600;
+            }
+
+            .process-step .step-description {
+                color: var(--navy) !important;
+                opacity: 0.8;
+            }
+
+            .process-step .step-number {
+                background: var(--orange) !important;
+                color: var(--white) !important;
             }
 
             .step-number {
@@ -2281,7 +2288,245 @@
                 line-height: 1.4;
             }
 
-            /* Demo footer mobile optimization */
+            /* Footer */
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-navy);
+            color: var(--cream);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        /* Mobile optimizations for new sections */
+        @media (max-width: 768px) {
+            /* Who We Welcome mobile optimization */
+            .who-we-welcome {
+                padding: 80px 0 !important;
+            }
+
+            .welcome-header h2 {
+                font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
+                line-height: 1.1 !important;
+                margin-bottom: 16px !important;
+            }
+
+            .welcome-header p {
+                font-size: 16px !important;
+                padding: 0 10px !important;
+            }
+
+            .welcome-item {
+                padding: 32px 20px !important;
+            }
+
+            .welcome-icon {
+                width: 50px !important;
+                height: 50px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .welcome-item h3 {
+                font-size: 18px !important;
+                line-height: 1.3 !important;
+            }
+
+            /* Application form mobile optimization */
+            .application-form {
+                padding: 80px 0 !important;
+            }
+
+            .application-header h2 {
+                font-size: clamp(2rem, 8vw, 2.5rem) !important;
+                margin-bottom: 16px !important;
+            }
+
+            .application-header p {
+                font-size: 16px !important;
+                padding: 0 10px !important;
+            }
+
+            .application-form-container {
+                max-width: 95% !important;
+                margin: 0 auto !important;
+            }
+
+            .application-form-container iframe {
+                width: 100% !important;
+                height: 1800px !important;
+                border-radius: 8px !important;
+            }
+
+            /* FAQ mobile optimization */
+            .faq {
+                padding: 80px 0 !important;
+            }
+
+            .faq-title {
+                font-size: clamp(2.5rem, 10vw, 3.5rem) !important;
+            }
+
+            .faq-question {
+                font-size: 16px !important;
+                padding: 20px 24px !important;
+                line-height: 1.3 !important;
+            }
+
+            .faq-answer {
+                font-size: 14px !important;
+                padding: 0 24px 20px !important;
+                line-height: 1.5 !important;
+            }
+
+            .faq-question::after {
+                font-size: 20px !important;
+                right: 24px !important;
+            }
+
+            /* Offerings list mobile optimization */
+            .offerings-list {
+                gap: 20px !important;
+                max-width: 100% !important;
+            }
+
+            .offering-item {
+                padding: 20px !important;
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+
+            .offering-item:hover {
+                transform: translateY(-4px) !important;
+            }
+
+            .offering-icon {
+                margin-bottom: 16px !important;
+            }
+
+            .offering-title {
+                font-size: 18px !important;
+                text-align: center !important;
+            }
+
+            /* Footer mobile optimization */
+            .footer {
+                padding: 50px 0 25px !important;
+                text-align: center !important;
+            }
+
+            .footer-section h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 16px !important;
+            }
+
+            .footer-section p {
+                font-size: 14px !important;
+                margin-bottom: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Extra small mobile optimizations */
+            .who-we-welcome {
+                padding: 60px 0 !important;
+            }
+
+            .welcome-header {
+                margin-bottom: 50px !important;
+            }
+
+            .welcome-item {
+                padding: 24px 16px !important;
+            }
+
+            .welcome-item h3 {
+                font-size: 16px !important;
+            }
+
+            .application-form {
+                padding: 60px 0 !important;
+            }
+
+            .application-form-container iframe {
+                height: 1600px !important;
+            }
+
+            .faq {
+                padding: 60px 0 !important;
+            }
+
+            .faq-question {
+                font-size: 15px !important;
+                padding: 18px 20px !important;
+            }
+
+            .faq-answer {
+                font-size: 13px !important;
+                padding: 0 20px 18px !important;
+            }
+
+            .offering-item {
+                padding: 16px !important;
+            }
+
+            .offering-title {
+                font-size: 16px !important;
+            }
+
+            /* Hero buttons mobile optimization */
+            .hero-cta-buttons {
+                flex-direction: column !important;
+                gap: 16px !important;
+                align-items: center !important;
+            }
+
+            .hero-cta-buttons .btn-primary,
+            .hero-cta-buttons .btn-secondary {
+                width: 100% !important;
+                max-width: 280px !important;
+                text-align: center !important;
+                padding: 16px 24px !important;
+                font-size: 16px !important;
+            }
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--orange);
+        }
+
+        .footer-section p, .footer-section a {
+            color: var(--cream);
+            text-decoration: none;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .footer-section a:hover {
+            opacity: 1;
+            color: var(--orange);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(245, 245, 220, 0.1);
+            padding-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
         /* Extra small mobile spacing */
@@ -2392,7 +2637,26 @@
             }
 
             .process-step {
+                background: var(--white);
+                border: 2px solid var(--orange);
+                border-radius: 12px;
                 padding: 24px 20px;
+                text-align: center;
+            }
+
+            .process-step .step-title {
+                color: var(--navy) !important;
+                font-weight: 600;
+            }
+
+            .process-step .step-description {
+                color: var(--navy) !important;
+                opacity: 0.8;
+            }
+
+            .process-step .step-number {
+                background: var(--orange) !important;
+                color: var(--white) !important;
             }
 
             .step-number {
@@ -2484,9 +2748,6 @@
 
     <!-- Clean Mobile Navigation -->
     <div class="mobile-nav-bar">
-        <div class="mobile-nav-logo">
-            <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 60px; width: auto;">
-        </div>
         <div class="mobile-page-cards">
             <a href="index.html" class="page-card active">Home</a>
             <a href="gallery.html" class="page-card">Maple House</a>
@@ -2501,9 +2762,6 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-left">
-                    <div class="mobile-hero-logo">
-                        <img src="./assets/newbl.png" alt="NewBridge Living" style="height: 100px; width: auto; max-width: 100%;">
-                    </div>
                     <div class="hero-intro">NewBridge Living</div>
                     <h1 class="hero-title">
                         <span class="line">
@@ -2786,28 +3044,20 @@
             </div>
             <div class="faq-container">
                 <div class="faq-item">
-                    <h3 class="faq-question">What is the typical length of stay at NewBridge Living?</h3>
-                    <div class="faq-answer">Most residents stay 3-12 months, depending on individual recovery goals and progress. We work with each resident to determine the best timeline for their journey.</div>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">Do you work with insurance companies?</h3>
-                    <div class="faq-answer">Yes, we're experienced with insurance claims and work directly with adjusters to ensure proper coverage and streamlined approval processes.</div>
-                </div>
-                <div class="faq-item">
-                    <h3 class="faq-question">What materials do you recommend for Colorado weather?</h3>
-                    <div class="faq-answer">We require completion of a treatment program (inpatient or outpatient) and at least 30 days of sobriety. Each application is reviewed individually.</div>
+                    <h3 class="faq-question">What are the requirements to live at NewBridge Living?</h3>
+                    <div class="faq-answer">We require completion of a treatment program (inpatient or outpatient) and at least 30 days of sobriety. Each application is reviewed individually to ensure a good fit for our community.</div>
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-question">What does it cost to live at NewBridge Living?</h3>
-                    <div class="faq-answer">Costs vary by size, materials, and complexity. Most residential projects range from $12,000-$35,000. We provide detailed estimates during free consultations.</div>
+                    <div class="faq-answer">Monthly rent covers housing, utilities, internet, and basic amenities. Please contact us at (850) 555-0123 for current rates and payment options.</div>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-question">What are the house rules?</h3>
-                    <div class="faq-answer">We maintain a substance-free environment with curfew, chores, mandatory meetings, and respect for fellow residents. Complete house rules are provided during intake.</div>
+                    <h3 class="faq-question">What are the house rules and expectations?</h3>
+                    <div class="faq-answer">We maintain a 100% drug and alcohol-free environment with regular drug testing, curfew guidelines, shared household responsibilities, and respect for fellow residents. Our supportive community focuses on accountability and growth.</div>
                 </div>
                 <div class="faq-item">
-                    <h3 class="faq-question">What support services are available?</h3>
-                    <div class="faq-answer">We provide 24/7 house management support, peer counseling, life skills training, job placement assistance, and connections to local recovery meetings and resources.</div>
+                    <h3 class="faq-question">What support is available to residents?</h3>
+                    <div class="faq-answer">We provide 24/7 house management support, peer support from fellow residents, life skills development, job placement assistance, and connections to local recovery resources and support groups.</div>
                 </div>
             </div>
         </div>
@@ -3121,6 +3371,37 @@
 
 
 
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NewBridge Living</h3>
+                    <p>Providing dignity, stability, and growth as a bridge to independence in Tallahassee, Florida.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Phone: (850) 555-0123</p>
+                    <p>Email: contact@newbridgeliving.com</p>
+                    <p>Tallahassee, FL</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="gallery.html">Maple House</a></p>
+                    <p><a href="about.html">About</a></p>
+                    <p><a href="contact.html">Apply</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 NewBridge Living. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
